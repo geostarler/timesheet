@@ -81,7 +81,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JbW-f7-fow"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="View" selectedImage="calendar" catalog="system" id="mGg-uX-zsY" userLabel="View"/>
+                    <tabBarItem key="tabBarItem" title="View" image="calendar" catalog="system" selectedImage="calendar" id="mGg-uX-zsY" userLabel="View"/>
                     <connections>
                         <outlet property="backButton" destination="c9O-Fm-1IG" id="L2A-fu-BzU"/>
                         <outlet property="calendarTable" destination="x7x-hH-pec" id="PdR-lS-TGI"/>
@@ -102,14 +102,71 @@
                     <view key="view" contentMode="scaleToFill" id="aOQ-Uz-5fs">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m0c-1I-ox9">
+                                <rect key="frame" x="82" y="114" width="234" height="164"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="164" id="Vnz-wH-ee1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QGz-Hh-agi">
+                                <rect key="frame" x="82" y="302" width="234" height="37"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sZk-54-dxD" userLabel="Check in">
+                                <rect key="frame" x="111" y="389" width="193" height="118"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120.5" id="L7p-Rr-9tE"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="play.rectangle.fill" catalog="system">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tHE-aQ-mMs">
+                                <rect key="frame" x="122" y="546.5" width="170" height="154"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="155" id="yqd-N3-pIR"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="stop.circle.fill" catalog="system"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j9o-vp-Dgd">
+                                <rect key="frame" x="82" y="510" width="261" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="QGz-Hh-agi" firstAttribute="top" secondItem="m0c-1I-ox9" secondAttribute="bottom" constant="24" id="410-Xw-hiq"/>
+                            <constraint firstItem="tHE-aQ-mMs" firstAttribute="leading" secondItem="oXd-eV-nvr" secondAttribute="leading" constant="122" id="5iY-Dg-ynx"/>
+                            <constraint firstItem="m0c-1I-ox9" firstAttribute="top" secondItem="oXd-eV-nvr" secondAttribute="top" constant="70" id="9SM-bg-vMr"/>
+                            <constraint firstItem="m0c-1I-ox9" firstAttribute="leading" secondItem="oXd-eV-nvr" secondAttribute="leading" constant="82" id="B7T-kc-RxH"/>
+                            <constraint firstItem="m0c-1I-ox9" firstAttribute="leading" secondItem="QGz-Hh-agi" secondAttribute="leading" id="DWd-Kt-RtN"/>
+                            <constraint firstItem="oXd-eV-nvr" firstAttribute="bottom" secondItem="tHE-aQ-mMs" secondAttribute="bottom" constant="112" id="IZh-wH-SzT"/>
+                            <constraint firstItem="sZk-54-dxD" firstAttribute="top" secondItem="QGz-Hh-agi" secondAttribute="bottom" constant="49" id="R2J-hc-7fg"/>
+                            <constraint firstItem="m0c-1I-ox9" firstAttribute="leading" secondItem="j9o-vp-Dgd" secondAttribute="leading" id="Skw-sn-sS3"/>
+                            <constraint firstItem="tHE-aQ-mMs" firstAttribute="centerX" secondItem="sZk-54-dxD" secondAttribute="centerX" id="aha-hl-hVp"/>
+                            <constraint firstItem="m0c-1I-ox9" firstAttribute="trailing" secondItem="QGz-Hh-agi" secondAttribute="trailing" id="dGJ-KE-4AZ"/>
+                            <constraint firstItem="tHE-aQ-mMs" firstAttribute="top" secondItem="j9o-vp-Dgd" secondAttribute="bottom" constant="8" id="mv1-u7-9PX"/>
+                            <constraint firstItem="sZk-54-dxD" firstAttribute="leading" secondItem="oXd-eV-nvr" secondAttribute="leading" constant="111" id="pNI-uV-sKu"/>
+                            <constraint firstItem="j9o-vp-Dgd" firstAttribute="top" secondItem="sZk-54-dxD" secondAttribute="bottom" constant="1.5" id="uwy-C4-eN1"/>
+                            <constraint firstItem="sZk-54-dxD" firstAttribute="centerY" secondItem="aOQ-Uz-5fs" secondAttribute="centerY" id="v4v-Oa-EFw"/>
+                            <constraint firstItem="oXd-eV-nvr" firstAttribute="trailing" secondItem="m0c-1I-ox9" secondAttribute="trailing" constant="98" id="waW-Kb-bxF"/>
+                            <constraint firstItem="sZk-54-dxD" firstAttribute="centerX" secondItem="aOQ-Uz-5fs" secondAttribute="centerX" id="xTi-58-BU5"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="oXd-eV-nvr"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" selectedImage="house" catalog="system" id="Lr6-nu-eVw" userLabel="Home"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" selectedImage="house" id="Lr6-nu-eVw" userLabel="Home"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kni-DI-cCc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1036" y="-740"/>
+            <point key="canvasLocation" x="-1036.231884057971" y="-740.625"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="uMw-wM-4g1">
@@ -141,7 +198,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Total" selectedImage="chart.bar.fill" catalog="system" id="dp7-eT-hKA"/>
+                    <tabBarItem key="tabBarItem" title="Total" image="chart.bar.fill" catalog="system" selectedImage="chart.bar.fill" id="dp7-eT-hKA"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -157,7 +214,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="TEr-l3-Vec"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Setting" selectedImage="gear" catalog="system" id="Axu-bv-Cur" userLabel="Setting"/>
+                    <tabBarItem key="tabBarItem" title="Setting" image="gear" catalog="system" selectedImage="gear" id="Axu-bv-Cur" userLabel="Setting"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bfr-PA-wHk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -169,5 +226,7 @@
         <image name="chart.bar.fill" catalog="system" width="64" height="44"/>
         <image name="gear" catalog="system" width="64" height="58"/>
         <image name="house" catalog="system" width="64" height="54"/>
+        <image name="play.rectangle.fill" catalog="system" width="64" height="46"/>
+        <image name="stop.circle.fill" catalog="system" width="64" height="60"/>
     </resources>
 </document>

@@ -37,49 +37,49 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         headerLabel.text = "Tổng thời gian làm việc: "
         }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let range = calendar.range(of: .day, in: .month, for: Date())!
-        return range.count
-        }
-    
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = calendarTable.dequeueReusableCell(withIdentifier: "Cell")
         let month = calendar.component(.month, from: date)
         let year = calendar.component(.year, from: date)
         let day = "\(year)-\(month)-\(indexPath.row + 1)"
+        
+        //show day of the month
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let cellDate = dateFormatter.date(from:day)!
         let cellDateFormatter = DateFormatter()
-        cellDateFormatter.dateFormat = "EE"
+        cellDateFormatter.locale = Locale(identifier: "vi_VN")
+        cellDateFormatter.dateFormat = "EEEE"
         let formattedDate = cellDateFormatter.string(from: cellDate)
-        switch formattedDate {
-        case "Mon":
-            cell?.textLabel?.text = "Thứ 2 (ngày \(indexPath.row + 1))"
-        case "Tue":
-            cell?.textLabel?.text = "Thứ 3 (ngày \(indexPath.row + 1))"
-        case "Wed":
-            cell?.textLabel?.text = "Thứ 4 (ngày \(indexPath.row + 1))"
-        case "Thu":
-            cell?.textLabel?.text = "Thứ 5 (ngày \(indexPath.row + 1))"
-        case "Fri":
-            cell?.textLabel?.text = "Thứ 6 (ngày \(indexPath.row + 1))"
-        case "Sat":
-            cell?.textLabel?.text = "Thứ 7 (ngày \(indexPath.row + 1))"
-        case "Sun":
-            cell?.textLabel?.text = "Chủ Nhật (ngày \(indexPath.row + 1))"
-        default:
-            cell?.textLabel?.text = formattedDate
-        }
+        cell?.textLabel?.text = formattedDate
+        
         
         return cell!
     }
-    //Section
+    //Solution 1: Section title
+    //Solution 2: Use 3 sections, section one and three will show total, section two will show all date of month
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Tổng thời gian làm việc: "
+        if section == 0{
+            return "Tổng thời gian làm việc: "
+        }else if section == 2{
+            return "Tổng thời gian làm việc: "
+        }
+        return "Ngày:"
     }
     
-    //
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+      }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let range = calendar.range(of: .day, in: .month, for: Date())!
+        if section == 0 {
+            return 1
+        } else if section == 2 {
+            return 1
+        }
+        return range.count + 2
+        }
+
 }
 
