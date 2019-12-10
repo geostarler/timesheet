@@ -51,21 +51,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cellDateFormatter.locale = Locale(identifier: "vi_VN")
         cellDateFormatter.dateFormat = "EEEE"
         let formattedDate = cellDateFormatter.string(from: cellDate)
-        cell?.textLabel?.text = formattedDate
-        
-        
+//        if indexPath.section == 0 {
+//            cell?.textLabel?.text = "Tổng thời gian làm việc: "
+//        }else if indexPath.section == 2{
+//            cell?.textLabel?.text = "Tổng thời gian làm việc: "
+//        }else if indexPath.section == 1 {
+//            cell?.textLabel?.text = formattedDate
+//        }
+        switch indexPath.section {
+        case 0:
+            cell?.textLabel?.text = "Tổng thời gian làm việc: "
+        case 1:
+            cell?.textLabel?.text = formattedDate
+        default:
+            cell?.textLabel?.text = "Tổng thời gian làm việc: "
+        }
         return cell!
     }
     //Solution 1: Section title
     //Solution 2: Use 3 sections, section one and three will show total, section two will show all date of month
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0{
-            return "Tổng thời gian làm việc: "
-        }else if section == 2{
-            return "Tổng thời gian làm việc: "
-        }
-        return "Ngày:"
-    }
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if section == 0{
+//            return "Tổng thời gian làm việc: "
+//        }else if section == 2{
+//            return "Tổng thời gian làm việc: "
+//        }
+//        return "Ngày:"
+//    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
@@ -78,7 +90,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if section == 2 {
             return 1
         }
-        return range.count + 2
+        return range.count
         }
 
 }
