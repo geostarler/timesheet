@@ -2,7 +2,7 @@
 //  TableViewCell.swift
 //  Time Sheet
 //
-//  Created by Nguyen Tan Dung on 12/9/19.
+//  Created by Nguyen Tan Dung on 12/11/19.
 //  Copyright © 2019 Nguyen Tan Dung. All rights reserved.
 //
 
@@ -10,6 +10,9 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
 
+    @IBOutlet weak var dayLabel: UILabel!
+    @IBOutlet weak var checkinLabel: UILabel!
+    @IBOutlet weak var checkoutLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +23,5 @@ class TableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
 }

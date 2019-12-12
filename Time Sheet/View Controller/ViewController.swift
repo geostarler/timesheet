@@ -19,29 +19,38 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var nextButton: UIButton!
 
     let date = Date()
-    let dateFormatter = DateFormatter()
+    let monthFormatter = DateFormatter()
     let calendar = Calendar.current
- 
+    var month = 0
+    var year = 2019
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
         calendarTable.delegate = self
-        dateFormatter.dateFormat = "MM/YYYY"
-        let dayOfTheWeekString = dateFormatter.string(from: date)
+        month = calendar.component(.month, from: date)
         yearMonthLabel.textAlignment = NSTextAlignment.center
-        yearMonthLabel?.text = dayOfTheWeekString
+        yearMonthLabel?.text = "\(month)/\(year)"
         
         //header and footer
-        calendarTable.tableHeaderView = headerView
-        headerLabel.textAlignment = NSTextAlignment.center
-        headerLabel.text = "Tổng thời gian làm việc: "
+//        calendarTable.tableHeaderView = headerView
+//        headerLabel.textAlignment = NSTextAlignment.center
+//        headerLabel.text = "Tổng thời gian làm việc: "
         }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = calendarTable.dequeueReusableCell(withIdentifier: "Cell")
-        let month = calendar.component(.month, from: date)
+        let cellDefault = calendarTable.dequeueReusableCell(withIdentifier: "Cell")
+        
         let year = calendar.component(.year, from: date)
         let day = "\(year)-\(month)-\(indexPath.row + 1)"
+        //get data from custom cell
+        let customCell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell")
+        var cell:TableViewCell!
+        if customCell == nil{
+            cell = Bundle.main.loadNibNamed("TableViewCell", owner: self, options: nil)?.first as? TableViewCell
+        } else {
+            cell = customCell as? TableViewCell
+        }
         
         //show day of the month
         let dateFormatter = DateFormatter()
@@ -60,13 +69,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        }
         switch indexPath.section {
         case 0:
-            cell?.textLabel?.text = "Tổng thời gian làm việc: "
+            cellDefault?.textLabel?.text = "Tổng thời gian làm việc: 40 tiếng"
+            return cellDefault!
         case 1:
-            cell?.textLabel?.text = formattedDate
+            cell.dayLabel.text = formattedDate
+            cell.checkinLabel.text = "8:00"
+            cell.checkoutLabel.text = "17:30"
+            return cell
         default:
-            cell?.textLabel?.text = "Tổng thời gian làm việc: "
+            cellDefault?.textLabel?.text = "Tổng thời gian làm việc: "
+            return cellDefault!
         }
-        return cell!
     }
     //Solution 1: Section title
     //Solution 2: Use 3 sections, section one and three will show total, section two will show all date of month
@@ -90,8 +103,36 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else if section == 2 {
             return 1
         }
-        return range.count
+    return range.count
+    }
+    
+    //back button
+    @IBAction func backButton(_ sender: Any) {
+        if self.month == 1 {
+            self.backButton.isEnabled = false
+            self.nextButton.isEnabled = true
+        }else {
+            self.backButton.isEnabled = true
+            self.nextButton.isEnabled = true
+            self.month -= 1
+            self.yearMonthLabel.text = "\(self.month)/\(self.year)"
+            self.calendarTable.reloadData()
         }
-
+       
+    }
+    
+    //next button
+    @IBAction func nextButton(_ sender: Any) {
+        if self.month == 12 {
+            self.nextButton.isEnabled = false
+            self.backButton.isEnabled = true
+        }else {
+            self.nextButton.isEnabled = true
+            self.backButton.isEnabled = true
+            self.month += 1
+            self.yearMonthLabel.text = "\(self.month)/\(self.year)"
+            self.calendarTable.reloadData()
+        }
+    }
 }
 
