@@ -22,15 +22,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let monthFormatter = DateFormatter()
     let calendar = Calendar.current
     var month = 0
-    var year = 2019
+    var year = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
         calendarTable.delegate = self
         month = calendar.component(.month, from: date)
+        year = calendar.component(.year, from: date)
         yearMonthLabel.textAlignment = NSTextAlignment.center
-        yearMonthLabel?.text = "\(month)/\(year)"
+        yearMonthLabel?.text = "\(month)-\(year)"
         
         //header and footer
 //        calendarTable.tableHeaderView = headerView
@@ -40,8 +41,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellDefault = calendarTable.dequeueReusableCell(withIdentifier: "Cell")
-        
-        let year = calendar.component(.year, from: date)
+        year = calendar.component(.year, from: date)
         let day = "\(year)-\(month)-\(indexPath.row + 1)"
         //get data from custom cell
         let customCell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell")
@@ -72,7 +72,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             cellDefault?.textLabel?.text = "Tổng thời gian làm việc: 40 tiếng"
             return cellDefault!
         case 1:
-            cell.dayLabel.text = formattedDate
+            cell.dayLabel.text = "\(formattedDate)"
             cell.checkinLabel.text = "8:00"
             cell.checkoutLabel.text = "17:30"
             return cell
@@ -97,13 +97,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
       }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let range = calendar.range(of: .day, in: .month, for: Date())!
+        
+//        let range = calendar.range(of: .day, in: .month, for: date)!
+        let dateComponents = DateComponents(year: year, month: month)
+        let calendar = Calendar.current
+        let date = calendar.date(from: dateComponents)!
+
+        let range = calendar.range(of: .day, in: .month, for: date)!
+        let numDays = range.count
         if section == 0 {
             return 1
         } else if section == 2 {
             return 1
         }
-    return range.count
+        
+        return numDays
     }
     
     //back button
@@ -115,7 +123,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.backButton.isEnabled = true
             self.nextButton.isEnabled = true
             self.month -= 1
-            self.yearMonthLabel.text = "\(self.month)/\(self.year)"
+           
+            self.yearMonthLabel.text = "\(self.month)-\(self.year)"
             self.calendarTable.reloadData()
         }
        
@@ -130,7 +139,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.nextButton.isEnabled = true
             self.backButton.isEnabled = true
             self.month += 1
-            self.yearMonthLabel.text = "\(self.month)/\(self.year)"
+            
+            self.yearMonthLabel.text = "\(self.month)-\(self.year)"
             self.calendarTable.reloadData()
         }
     }
