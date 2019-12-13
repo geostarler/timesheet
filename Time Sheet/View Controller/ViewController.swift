@@ -18,20 +18,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
 
-    let date = Date()
+    var date = Date()
+    var date2:String = ""
     let monthFormatter = DateFormatter()
     let calendar = Calendar.current
-    var month = 0
-    var year = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
         calendarTable.delegate = self
-        month = calendar.component(.month, from: date)
-        year = calendar.component(.year, from: date)
         yearMonthLabel.textAlignment = NSTextAlignment.center
-        yearMonthLabel?.text = "\(month)-\(year)"
+        monthFormatter.dateFormat = "MM/YYYY"
+        date2 = monthFormatter.string(from: date)
+        yearMonthLabel?.text = "\(date2)"
         
         //header and footer
 //        calendarTable.tableHeaderView = headerView
@@ -41,7 +40,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellDefault = calendarTable.dequeueReusableCell(withIdentifier: "Cell")
-        year = calendar.component(.year, from: date)
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
         let day = "\(year)-\(month)-\(indexPath.row + 1)"
         //get data from custom cell
         let customCell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell")
@@ -99,9 +99,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
 //        let range = calendar.range(of: .day, in: .month, for: date)!
-        let dateComponents = DateComponents(year: year, month: month)
-        let calendar = Calendar.current
-        let date = calendar.date(from: dateComponents)!
+//        let dateComponents = DateComponents(year: year, month: .month)
+//        let calendar = Calendar.current
+//        let date = calendar.date(from: dateComponents)!
 
         let range = calendar.range(of: .day, in: .month, for: date)!
         let numDays = range.count
@@ -116,15 +116,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //back button
     @IBAction func backButton(_ sender: Any) {
-        if self.month == 1 {
+        let month = calendar.component(.month, from: date)
+        let calendar = Calendar.current
+        if month == 1 {
             self.backButton.isEnabled = false
             self.nextButton.isEnabled = true
         }else {
             self.backButton.isEnabled = true
             self.nextButton.isEnabled = true
-            self.month -= 1
-           
-            self.yearMonthLabel.text = "\(self.month)-\(self.year)"
+            date = calendar.date(byAdding: .month, value: -1, to: date) ?? date
+            monthFormatter.dateFormat = "MM/YYYY"
+            date2 = monthFormatter.string(from: date)
+            yearMonthLabel?.text = date2
             self.calendarTable.reloadData()
         }
        
@@ -132,15 +135,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //next button
     @IBAction func nextButton(_ sender: Any) {
-        if self.month == 12 {
+        let calendar = Calendar.current
+        let month = calendar.component(.month, from: date)
+        if month == 12 {
             self.nextButton.isEnabled = false
             self.backButton.isEnabled = true
         }else {
             self.nextButton.isEnabled = true
             self.backButton.isEnabled = true
-            self.month += 1
-            
-            self.yearMonthLabel.text = "\(self.month)-\(self.year)"
+            monthFormatter.dateFormat = "MM/YYYY"
+            date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
+            date2 = monthFormatter.string(from: date)
+            yearMonthLabel?.text = date2
             self.calendarTable.reloadData()
         }
     }
