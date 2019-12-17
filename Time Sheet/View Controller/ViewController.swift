@@ -23,6 +23,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let monthFormatter = DateFormatter()
     let calendar = Calendar.current
     
+    var checkInTime = [String]()
+    var checkOutTime = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
@@ -31,7 +34,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         monthFormatter.dateFormat = "MM/YYYY"
         date2 = monthFormatter.string(from: date)
         yearMonthLabel?.text = "\(date2)"
-        
+        parse()
         //header and footer
 //        calendarTable.tableHeaderView = headerView
 //        headerLabel.textAlignment = NSTextAlignment.center
@@ -67,17 +70,48 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        }else if indexPath.section == 1 {
 //            cell?.textLabel?.text = formattedDate
 //        }
+        
+        
         switch indexPath.section {
         case 0:
             cellDefault?.textLabel?.text = "Tổng thời gian làm việc: 40 tiếng"
+            cellDefault?.textLabel?.textAlignment = NSTextAlignment.center
             return cellDefault!
         case 1:
+            let queue = DispatchQueue(label: "loadTime")
             cell.dayLabel.text = "\(formattedDate)"
-            cell.checkinLabel.text = "8:00"
-            cell.checkoutLabel.text = "17:30"
+            let dateFm = DateFormatter()
+            dateFm.dateFormat = "yyyy-MM-dd"
+            dateFm.locale = Locale(identifier: "vi_VN")
+            let formattedDate2 = dateFm.string(from: cellDate)
+            //get time
+            queue.async {
+                for i in self.checkInTime {
+                    for j in self.checkOutTime {
+                        let fmt1 = DateFormatter()
+                        fmt1.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+                        let fmt2 = fmt1.date(from: i) ?? cellDate
+                        let fmt3 = fmt1.date(from: j) ?? cellDate
+                        let fmt = DateFormatter()
+                        let getTime = DateFormatter()
+                        getTime.dateFormat = "HH:mm:ss"
+                        fmt.dateFormat = "yyyy-MM-dd"
+                        let fmti = fmt.string(from: fmt2)
+                        let timeGettedI = getTime.string(from: fmt2)
+                        let timeGettedJ = getTime.string(from: fmt3)
+                        DispatchQueue.main.async {
+                            if formattedDate2 == fmti {
+                                cell.checkinLabel.text = timeGettedI
+                                cell.checkoutLabel.text = timeGettedJ
+                            }
+                        }
+                    }
+                }
+            }
             return cell
         default:
             cellDefault?.textLabel?.text = "Tổng thời gian làm việc: "
+            cellDefault?.textLabel?.textAlignment = NSTextAlignment.center
             return cellDefault!
         }
     }
@@ -117,7 +151,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //back button
     @IBAction func backButton(_ sender: Any) {
         let month = calendar.component(.month, from: date)
-        let calendar = Calendar.current
         if month == 1 {
             self.backButton.isEnabled = false
             self.nextButton.isEnabled = true
@@ -125,7 +158,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.backButton.isEnabled = true
             self.nextButton.isEnabled = true
             date = calendar.date(byAdding: .month, value: -1, to: date) ?? date
-            monthFormatter.dateFormat = "MM/YYYY"
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
             self.calendarTable.reloadData()
@@ -135,7 +167,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //next button
     @IBAction func nextButton(_ sender: Any) {
-        let calendar = Calendar.current
         let month = calendar.component(.month, from: date)
         if month == 12 {
             self.nextButton.isEnabled = false
@@ -143,11 +174,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }else {
             self.nextButton.isEnabled = true
             self.backButton.isEnabled = true
-            monthFormatter.dateFormat = "MM/YYYY"
             date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
             self.calendarTable.reloadData()
+        }
+    }
+    
+    //parse data
+    func parse(){
+        let url = Bundle.main.url(forResource: "data", withExtension: "json")
+        if let url = url {
+            let data = try? Data(contentsOf: url)
+            do{
+                guard let data = data
+                    else {return}
+                let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+                guard let dataArray = json as? [Any] else {return}
+                for time in dataArray {
+                    guard let timeList = time as? [String: Any] else {return}
+                    guard let checkin = timeList["checkIn"] as? String else {return}
+                    checkInTime.append(checkin)
+                    guard let checkout = timeList["checkOut"] as? String else {return}
+                    checkOutTime.append(checkout)
+                }
+            }
+            
+            catch let error as NSError{
+                print(error.localizedDescription)
+            }
         }
     }
 }

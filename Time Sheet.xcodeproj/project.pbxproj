@@ -20,6 +20,7 @@
 		D422AE74239E37780018206D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422AE73239E37780018206D /* SettingViewController.swift */; };
 		D461050C23A0FB86008D62D9 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D461050A23A0FB86008D62D9 /* TableViewCell.swift */; };
 		D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D461050B23A0FB86008D62D9 /* TableViewCell.xib */; };
+		D4ABB1D123A38D8A00080D93 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D4ABB1D023A38D8A00080D93 /* data.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		D422AE73239E37780018206D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		D461050A23A0FB86008D62D9 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		D461050B23A0FB86008D62D9 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
+		D4ABB1D023A38D8A00080D93 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data.json; path = ../../../Desktop/data.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +111,8 @@
 		D422AE39239E33ED0018206D /* Time Sheet */ = {
 			isa = PBXGroup;
 			children = (
+				D4ABB1CF23A38D6000080D93 /* Cell */,
+				D4ABB1CE23A38D5400080D93 /* Json */,
 				D422AE6E239E369A0018206D /* View */,
 				D422AE6C239E367F0018206D /* View Controller */,
 				D422AE3A239E33ED0018206D /* AppDelegate.swift */,
@@ -116,8 +120,6 @@
 				D422AE43239E33F10018206D /* Assets.xcassets */,
 				D422AE45239E33F10018206D /* LaunchScreen.storyboard */,
 				D422AE48239E33F10018206D /* Info.plist */,
-				D461050A23A0FB86008D62D9 /* TableViewCell.swift */,
-				D461050B23A0FB86008D62D9 /* TableViewCell.xib */,
 			);
 			path = "Time Sheet";
 			sourceTree = "<group>";
@@ -157,6 +159,23 @@
 				D422AE40239E33ED0018206D /* Main.storyboard */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		D4ABB1CE23A38D5400080D93 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				D4ABB1D023A38D8A00080D93 /* data.json */,
+			);
+			path = Json;
+			sourceTree = "<group>";
+		};
+		D4ABB1CF23A38D6000080D93 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				D461050A23A0FB86008D62D9 /* TableViewCell.swift */,
+				D461050B23A0FB86008D62D9 /* TableViewCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,6 +285,7 @@
 				D422AE47239E33F10018206D /* LaunchScreen.storyboard in Resources */,
 				D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */,
 				D422AE44239E33F10018206D /* Assets.xcassets in Resources */,
+				D4ABB1D123A38D8A00080D93 /* data.json in Resources */,
 				D422AE42239E33ED0018206D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
