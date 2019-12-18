@@ -21,6 +21,7 @@
 		D461050C23A0FB86008D62D9 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D461050A23A0FB86008D62D9 /* TableViewCell.swift */; };
 		D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D461050B23A0FB86008D62D9 /* TableViewCell.xib */; };
 		D4ABB1D123A38D8A00080D93 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D4ABB1D023A38D8A00080D93 /* data.json */; };
+		D4AC3B7E23AA302C000BECF8 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AC3B7D23AA302C000BECF8 /* TestObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		D461050A23A0FB86008D62D9 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		D461050B23A0FB86008D62D9 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		D4ABB1D023A38D8A00080D93 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data.json; path = ../../../Desktop/data.json; sourceTree = "<group>"; };
+		D4AC3B7D23AA302C000BECF8 /* TestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				D422AE43239E33F10018206D /* Assets.xcassets */,
 				D422AE45239E33F10018206D /* LaunchScreen.storyboard */,
 				D422AE48239E33F10018206D /* Info.plist */,
+				D4AC3B7D23AA302C000BECF8 /* TestObject.swift */,
 			);
 			path = "Time Sheet";
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 			files = (
 				D422AE3B239E33ED0018206D /* AppDelegate.swift in Sources */,
 				D422AE3D239E33ED0018206D /* SceneDelegate.swift in Sources */,
+				D4AC3B7E23AA302C000BECF8 /* TestObject.swift in Sources */,
 				D422AE70239E375E0018206D /* ViewController.swift in Sources */,
 				D422AE72239E376B0018206D /* TotalViewController.swift in Sources */,
 				D422AE6B239E36750018206D /* HomeViewController.swift in Sources */,
