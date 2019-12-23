@@ -18,6 +18,11 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
     var date = Date()
     var date2:String = ""
     let calender = Calendar.current
+    
+    var checkInTime:[String] = []
+    var checkOutTime:[String] = []
+    var currentCheckInTime : [String] = []
+    var currentCheckOutTime : [String] = []
     let monthYearFormat = DateFormatter()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,69 +62,118 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return 4
-        case 1:
-            return 1
-        default:
-            return 1
+    //parse data
+        func parse(){
+            if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
+                let data = try? Data(contentsOf: url)
+                do{
+                    //option array
+                    guard let data = data
+                        else {return}
+                    let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+                    guard let dataArray = json as? [Any] else {return}
+                    for time in dataArray {
+                        guard let timeList = time as? [String: Any] else {continue}
+                        guard let checkin = timeList["checkIn"] as? String else {continue}
+                        checkInTime.append(checkin)
+                        guard let checkout = timeList["checkOut"] as? String else {continue}
+                        checkOutTime.append(checkout)
+                    }
+                } catch let error as NSError{
+                    print(error.localizedDescription)
+                }
+            }
         }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let defaultCell = detailTable.dequeueReusableCell(withIdentifier: "Cell")
         let cell = detailTable.dequeueReusableCell(withIdentifier: "DetailTableViewCell")
+
+        let format = DateFormatter()
+        format.dateFormat = "MMM dd"
+        //get start day and end day of the month
+        let components = calender.dateComponents([.year, .month], from: date)
+        let startOfMonth = calender.date(from: components)
+        let start = format.string(from: startOfMonth ?? date)
+
+        let comps2 = NSDateComponents()
+        comps2.month = 1
+        comps2.day = -1
+        let endDay = calender.date(byAdding: comps2 as DateComponents, to: startOfMonth ?? date)
+        let end = format.string(from: endDay ?? date)
         var detailCell:DetailTableViewCell!
+        
         if detailCell == nil{
             detailCell = Bundle.main.loadNibNamed("DetailTableViewCell", owner: self, options: nil)?.first as? DetailTableViewCell
         } else {
             detailCell = cell as? DetailTableViewCell
         }
-        switch indexPath.section {
+        switch indexPath.row {
         case 0:
-            switch indexPath.row {
-                case 0:
-                    detailCell.detailLabel.text = "Check in: "
-                    detailCell.timeLabel.text = "08:30"
-                case 1:
-                    detailCell.detailLabel.text = "Check out: "
-                    detailCell.timeLabel.text = "17:30"
-                detailCell.timeLabel.text = "08:00"
-                case 2:
-                    detailCell.detailLabel.text = "Break: "
-                    detailCell.timeLabel.text = "00:00"
-                default:
-                    detailCell.detailLabel.text = "Pause: "
-                    detailCell.timeLabel.text = "00:00"
-                }
+            detailCell.detailLabel.text = "peroid: "
+            detailCell.timeLabel.text = "\(start) ~ \(end)"
             return detailCell
         case 1:
-            detailCell.detailLabel.text = ""
+            detailCell.detailLabel.text = "Day worked: "
+            detailCell.timeLabel.text = "8 days"
+            return detailCell
+        case 2:
+            return defaultCell!
+        case 3:
+            detailCell.detailLabel.text = "Hour worked (Total): "
+            detailCell.timeLabel.text = "100:00"
+            return detailCell
+        case 4:
+            detailCell.detailLabel.text = "Hour worked (Average): "
             detailCell.timeLabel.text = "08:00"
             return detailCell
-        default:
-            detailCell.detailLabel.text = ""
-            detailCell.timeLabel.text = "17:00"
+        case 5:
+            return defaultCell!
+        case 6:
+            detailCell.detailLabel.text = "Overtime (Total): "
+            detailCell.timeLabel.text = "10:00"
             return detailCell
-        }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "HOURS WORKED "
-        case 1:
-            return "MEMO"
-        case 2:
-            return ""
+        case 7:
+            detailCell.detailLabel.text = "Overtime (Average): "
+            detailCell.timeLabel.text = "1:00"
+            return detailCell
+        case 8:
+            return defaultCell!
+        case 9:
+            detailCell.detailLabel.text = "Salary (Total): "
+            detailCell.timeLabel.text = "999999999"
+            return detailCell
         default:
-            return ""
+            return defaultCell!
         }
     }
 
+    func getCurrentTime() {
+          let range = calender.range(of: .day, in: .month, for: date)!
+          currentCheckOutTime = Array(repeating: "", count: range.count)
+          currentCheckInTime = Array(repeating: "", count: range.count)
+          
+          assert(checkInTime.count == checkOutTime.count)
+          
+          let calendar = Calendar.current
+          let monthCurrent = calendar.component(.month, from: date)
+          let yearCurrent = calendar.component(.year, from: date)
+
+          for i in 0..<checkInTime.count {
+              let dateFormat = DateFormatter()
+              dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
+              let dateIndex = dateFormat.date(from: checkInTime[i])
+              let dayIndex = calendar.component(.day, from: dateIndex!)
+              let monthIndex = calendar.component(.month, from: dateIndex!)
+              let yearIndex = calendar.component(.year, from: dateIndex!)
+              if yearIndex == yearCurrent && monthIndex == monthCurrent {
+                  currentCheckInTime[dayIndex - 1] = checkInTime[i]
+                  currentCheckOutTime[dayIndex - 1] = checkOutTime[i]
+              }
+          }
+      }
 }
