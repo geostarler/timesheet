@@ -15,13 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        var object = TestObject(title: "dddddd", des: "ddddddccc", count: 4)
-        var objCopy = TestObject(obj: object)
-        object.title = "aaaaaa"
-        NSLog("title of object \(objCopy.title)")
-        NSLog("des of object \(objCopy.desc ?? "d")")
-        NSLog("count of object \(objCopy.count)")
-
         return true
     }
 

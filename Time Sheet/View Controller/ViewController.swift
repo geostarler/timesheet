@@ -29,6 +29,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var currentCheckInTime : [String] = []
     var currentCheckOutTime : [String] = []
     
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
@@ -47,7 +48,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        NSLog("load cell \(indexPath.row)")
         let cellDefault = calendarTable.dequeueReusableCell(withIdentifier: "Cell")
         let year = calendar.component(.year, from: date)
         let month = calendar.component(.month, from: date)
@@ -207,7 +207,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func parse(){
         if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
             let data = try? Data(contentsOf: url)
+//            URLSession.shared.dataTask(with: url) { (data, response, err)
+//                in
+//                guard let data = data else {return}
+//                do{
+//                    let checkTime = try JSONDecoder().decode([timeCheck].self, from: data)
+//                    print(checkTime)
+//                }catch let error as NSError{
+//                    print(error.localizedDescription)
+//                }
+//            }.resume()
             do{
+                //option array
                 guard let data = data
                     else {return}
                 let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
@@ -219,13 +230,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     guard let checkout = timeList["checkOut"] as? String else {continue}
                     checkOutTime.append(checkout)
                 }
-            }
-            
-            catch let error as NSError{
+            } catch let error as NSError{
                 print(error.localizedDescription)
             }
-            
-            
         }
     }
     

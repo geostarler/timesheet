@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D40F30BA23B058D2001E435A /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40F30B823B058D2001E435A /* DetailTableViewCell.swift */; };
+		D40F30BB23B058D2001E435A /* DetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D40F30B923B058D2001E435A /* DetailTableViewCell.xib */; };
 		D422AE3B239E33ED0018206D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422AE3A239E33ED0018206D /* AppDelegate.swift */; };
 		D422AE3D239E33ED0018206D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422AE3C239E33ED0018206D /* SceneDelegate.swift */; };
 		D422AE42239E33ED0018206D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D422AE40239E33ED0018206D /* Main.storyboard */; };
@@ -22,6 +24,7 @@
 		D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D461050B23A0FB86008D62D9 /* TableViewCell.xib */; };
 		D4ABB1D123A38D8A00080D93 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D4ABB1D023A38D8A00080D93 /* data.json */; };
 		D4AC3B7E23AA302C000BECF8 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AC3B7D23AA302C000BECF8 /* TestObject.swift */; };
+		D4AC3B8023AA33BF000BECF8 /* dataJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D40F30B823B058D2001E435A /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
+		D40F30B923B058D2001E435A /* DetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailTableViewCell.xib; sourceTree = "<group>"; };
 		D422AE37239E33ED0018206D /* Time Sheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Sheet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D422AE3A239E33ED0018206D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D422AE3C239E33ED0018206D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +68,7 @@
 		D461050B23A0FB86008D62D9 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		D4ABB1D023A38D8A00080D93 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data.json; path = ../../../Desktop/data.json; sourceTree = "<group>"; };
 		D4AC3B7D23AA302C000BECF8 /* TestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
+		D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				D4ABB1D023A38D8A00080D93 /* data.json */,
+				D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */,
 			);
 			path = Json;
 			sourceTree = "<group>";
@@ -177,6 +184,8 @@
 			children = (
 				D461050A23A0FB86008D62D9 /* TableViewCell.swift */,
 				D461050B23A0FB86008D62D9 /* TableViewCell.xib */,
+				D40F30B823B058D2001E435A /* DetailTableViewCell.swift */,
+				D40F30B923B058D2001E435A /* DetailTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -289,6 +298,7 @@
 				D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */,
 				D422AE44239E33F10018206D /* Assets.xcassets in Resources */,
 				D4ABB1D123A38D8A00080D93 /* data.json in Resources */,
+				D40F30BB23B058D2001E435A /* DetailTableViewCell.xib in Resources */,
 				D422AE42239E33ED0018206D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -321,6 +331,8 @@
 				D422AE72239E376B0018206D /* TotalViewController.swift in Sources */,
 				D422AE6B239E36750018206D /* HomeViewController.swift in Sources */,
 				D461050C23A0FB86008D62D9 /* TableViewCell.swift in Sources */,
+				D4AC3B8023AA33BF000BECF8 /* dataJSON.swift in Sources */,
+				D40F30BA23B058D2001E435A /* DetailTableViewCell.swift in Sources */,
 				D422AE74239E37780018206D /* SettingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
