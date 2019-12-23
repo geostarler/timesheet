@@ -28,7 +28,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         detailTable.delegate = self
         detailTable.dataSource = self
-        monthYearFormat.dateFormat = "MM,YYYY"
+        monthYearFormat.dateFormat = "MMM,YYYY"
         monthYearLabel.text = monthYearFormat.string(from: date)
         // Do any additional setup after loading the view.
     }
@@ -92,7 +92,6 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultCell = detailTable.dequeueReusableCell(withIdentifier: "Cell")
         let cell = detailTable.dequeueReusableCell(withIdentifier: "DetailTableViewCell")
-
         let format = DateFormatter()
         format.dateFormat = "MMM dd"
         //get start day and end day of the month
