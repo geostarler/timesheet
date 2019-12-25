@@ -26,6 +26,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var checkInTime = [String]()
     var checkOutTime = [String]()
     
+    var time = [TimeCheck]()
     var currentCheckInTime : [String] = []
     var currentCheckOutTime : [String] = []
     
@@ -39,7 +40,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         date2 = monthFormatter.string(from: date)
         yearMonthLabel?.text = "\(date2)"
         parse()
-        getCurrentTime()
+//        getCurrentTime()
+        getTime()
         //header and footer
 //        calendarTable.tableHeaderView = headerView
 //        headerLabel.textAlignment = NSTextAlignment.center
@@ -47,7 +49,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cellDefault = calendarTable.dequeueReusableCell(withIdentifier: "Cell")
         let year = calendar.component(.year, from: date)
         let month = calendar.component(.month, from: date)
@@ -96,7 +97,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if currentCheckInTime[indexPath.row] != "" && currentCheckOutTime[indexPath.row] != "" {
                 let checkIn = fmtConvert.date(from: currentCheckInTime[indexPath.row])
                 cell.checkinLabel.text = fmtDisplay.string(from: checkIn ?? Date())
-
                 let checkOut = fmtConvert.date(from: currentCheckOutTime[indexPath.row])
                 cell.checkoutLabel.text = fmtDisplay.string(from: checkOut ?? Date())
             } else {
@@ -180,7 +180,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             date = calendar.date(byAdding: .month, value: -1, to: date) ?? date
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
-            getCurrentTime()
+//            getCurrentTime()
+            getTime()
             self.calendarTable.reloadData()
         }
        
@@ -198,7 +199,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
-            getCurrentTime()
+//            getCurrentTime()
+            getTime()
             self.calendarTable.reloadData()
         }
     }
@@ -206,57 +208,78 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //parse data
     func parse(){
         if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
-            let data = try? Data(contentsOf: url)
-//            URLSession.shared.dataTask(with: url) { (data, response, err)
-//                in
-//                guard let data = data else {return}
-//                do{
-//                    let checkTime = try JSONDecoder().decode([timeCheck].self, from: data)
-//                    print(checkTime)
-//                }catch let error as NSError{
-//                    print(error.localizedDescription)
-//                }
-//            }.resume()
-            do{
-                //option array
-                guard let data = data
-                    else {return}
-                let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-                guard let dataArray = json as? [Any] else {return}
-                for time in dataArray {
-                    guard let timeList = time as? [String: Any] else {continue}
-                    guard let checkin = timeList["checkIn"] as? String else {continue}
-                    checkInTime.append(checkin)
-                    guard let checkout = timeList["checkOut"] as? String else {continue}
-                    checkOutTime.append(checkout)
+//            let data = try? Data(contentsOf: url)
+            URLSession.shared.dataTask(with: url) { (data, response, err)
+                in
+                guard let data = data else {return}
+                do{
+                    let checkTime = try JSONDecoder().decode([TimeCheck].self, from: data)
+                    self.time = checkTime
+                }catch let error as NSError{
+                    print(error.localizedDescription)
                 }
-            } catch let error as NSError{
-                print(error.localizedDescription)
-            }
+            }.resume()
+//            do{
+//                //option array
+//                guard let data = data
+//                    else {return}
+//                let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+//                guard let dataArray = json as? [Any] else {return}
+//                for time in dataArray {
+//                    guard let timeList = time as? [String: Any] else {continue}
+//                    guard let checkin = timeList["checkIn"] as? String else {continue}
+//                    checkInTime.append(checkin)
+//                    guard let checkout = timeList["checkOut"] as? String else {continue}
+//                    checkOutTime.append(checkout)
+//                }
+//            } catch let error as NSError{
+//                print(error.localizedDescription)
+//            }
         }
     }
     
-    func getCurrentTime() {
+//    func getCurrentTime() {
+//        let range = calendar.range(of: .day, in: .month, for: date)!
+//        currentCheckOutTime = Array(repeating: "", count: range.count)
+//        currentCheckInTime = Array(repeating: "", count: range.count)
+//
+//        assert(checkInTime.count == checkOutTime.count)
+//
+//        let calendar = Calendar.current
+//        let monthCurrent = calendar.component(.month, from: date)
+//        let yearCurrent = calendar.component(.year, from: date)
+//
+//        for i in 0..<checkInTime.count {
+//            let dateFormat = DateFormatter()
+//            dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
+//            let dateIndex = dateFormat.date(from: checkInTime[i])
+//            let dayIndex = calendar.component(.day, from: dateIndex!)
+//            let monthIndex = calendar.component(.month, from: dateIndex!)
+//            let yearIndex = calendar.component(.year, from: dateIndex!)
+//            if yearIndex == yearCurrent && monthIndex == monthCurrent {
+//                currentCheckInTime[dayIndex - 1] = checkInTime[i]
+//                currentCheckOutTime[dayIndex - 1] = checkOutTime[i]
+//            }
+//        }
+//    }
+    
+    func getTime(){
         let range = calendar.range(of: .day, in: .month, for: date)!
         currentCheckOutTime = Array(repeating: "", count: range.count)
         currentCheckInTime = Array(repeating: "", count: range.count)
-        
-        assert(checkInTime.count == checkOutTime.count)
-        
         let calendar = Calendar.current
         let monthCurrent = calendar.component(.month, from: date)
         let yearCurrent = calendar.component(.year, from: date)
-
-        for i in 0..<checkInTime.count {
+        for i in 0..<time.count {
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
-            let dateIndex = dateFormat.date(from: checkInTime[i])
+            let dateIndex = dateFormat.date(from: time[i].checkIn)
             let dayIndex = calendar.component(.day, from: dateIndex!)
             let monthIndex = calendar.component(.month, from: dateIndex!)
             let yearIndex = calendar.component(.year, from: dateIndex!)
             if yearIndex == yearCurrent && monthIndex == monthCurrent {
-                currentCheckInTime[dayIndex - 1] = checkInTime[i]
-                currentCheckOutTime[dayIndex - 1] = checkOutTime[i]
+                currentCheckInTime[dayIndex - 1] = time[i].checkIn
+                currentCheckOutTime[dayIndex - 1] = time[i].checkOut
             }
         }
     }

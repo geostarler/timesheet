@@ -8,7 +8,20 @@
 
 import Foundation
 
-struct timeCheck: Decodable {
+struct TimeCheck: Decodable {
     let checkIn: String
     let checkOut: String
+    
+    init(checkIn:String, checkOut:String) {
+        self.checkIn = checkIn
+        self.checkOut = checkOut
+    }
 }
+
+//class TimeChecks: Codable{
+//    let timeChecks: [TimeCheck]
+//
+//    init(timeChecks: [TimeCheck]) {
+//        self.timeChecks = timeChecks
+//    }
+//}

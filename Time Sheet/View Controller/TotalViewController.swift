@@ -63,27 +63,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     //parse data
-        func parse(){
-            if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
-                let data = try? Data(contentsOf: url)
-                do{
-                    //option array
-                    guard let data = data
-                        else {return}
-                    let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
-                    guard let dataArray = json as? [Any] else {return}
-                    for time in dataArray {
-                        guard let timeList = time as? [String: Any] else {continue}
-                        guard let checkin = timeList["checkIn"] as? String else {continue}
-                        checkInTime.append(checkin)
-                        guard let checkout = timeList["checkOut"] as? String else {continue}
-                        checkOutTime.append(checkout)
-                    }
-                } catch let error as NSError{
-                    print(error.localizedDescription)
-                }
-            }
-        }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
@@ -150,29 +130,4 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
             return defaultCell!
         }
     }
-
-    func getCurrentTime() {
-          let range = calender.range(of: .day, in: .month, for: date)!
-          currentCheckOutTime = Array(repeating: "", count: range.count)
-          currentCheckInTime = Array(repeating: "", count: range.count)
-          
-          assert(checkInTime.count == checkOutTime.count)
-          
-          let calendar = Calendar.current
-          let monthCurrent = calendar.component(.month, from: date)
-          let yearCurrent = calendar.component(.year, from: date)
-
-          for i in 0..<checkInTime.count {
-              let dateFormat = DateFormatter()
-              dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
-              let dateIndex = dateFormat.date(from: checkInTime[i])
-              let dayIndex = calendar.component(.day, from: dateIndex!)
-              let monthIndex = calendar.component(.month, from: dateIndex!)
-              let yearIndex = calendar.component(.year, from: dateIndex!)
-              if yearIndex == yearCurrent && monthIndex == monthCurrent {
-                  currentCheckInTime[dayIndex - 1] = checkInTime[i]
-                  currentCheckOutTime[dayIndex - 1] = checkOutTime[i]
-              }
-          }
-      }
 }
