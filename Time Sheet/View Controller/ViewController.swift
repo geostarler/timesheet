@@ -22,15 +22,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var date2:String = ""
     let monthFormatter = DateFormatter()
     let calendar = Calendar.current
-    
     var checkInTime = [String]()
     var checkOutTime = [String]()
     
     var time = [TimeCheck]()
-    var currentCheckInTime : [String] = []
-    var currentCheckOutTime : [String] = []
+    var currentCheckInTime = [String]()
+    var currentCheckOutTime = [String]()
     
- 
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
@@ -39,9 +37,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         monthFormatter.dateFormat = "MM/YYYY"
         date2 = monthFormatter.string(from: date)
         yearMonthLabel?.text = "\(date2)"
+        getTime()
         parse()
 //        getCurrentTime()
-        getTime()
         //header and footer
 //        calendarTable.tableHeaderView = headerView
 //        headerLabel.textAlignment = NSTextAlignment.center
@@ -77,14 +75,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        }else if indexPath.section == 1 {
 //            cell?.textLabel?.text = formattedDate
 //        }
-        
-        
+        getTime()
         switch indexPath.section {
         case 0:
             cellDefault?.textLabel?.text = "Tổng thời gian làm việc: 40 tiếng"
             cellDefault?.textLabel?.textAlignment = NSTextAlignment.center
             return cellDefault!
         case 1:
+            //get time
             cell.dayLabel.text = "\(formattedDate)"
             let dateFm = DateFormatter()
             dateFm.dateFormat = "yyyy-MM-dd"
@@ -93,7 +91,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             fmtConvert.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             let fmtDisplay = DateFormatter()
             fmtDisplay.dateFormat = "HH:mm:ss"
-
             if currentCheckInTime[indexPath.row] != "" && currentCheckOutTime[indexPath.row] != "" {
                 let checkIn = fmtConvert.date(from: currentCheckInTime[indexPath.row])
                 cell.checkinLabel.text = fmtDisplay.string(from: checkIn ?? Date())
@@ -104,7 +101,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.checkoutLabel.text = ""
             }
             
-            //get time
             /*queue.async {
                 for i in self.checkInTime {
                     for j in self.checkOutTime {
@@ -206,19 +202,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     //parse data
+    
     func parse(){
-        if let url = Bundle.main.url(forResource: "data", withExtension: "json") {
-//            let data = try? Data(contentsOf: url)
-            URLSession.shared.dataTask(with: url) { (data, response, err)
-                in
-                guard let data = data else {return}
-                do{
-                    let checkTime = try JSONDecoder().decode([TimeCheck].self, from: data)
-                    self.time = checkTime
-                }catch let error as NSError{
-                    print(error.localizedDescription)
-                }
-            }.resume()
+        let url = Bundle.main.url(forResource: "data", withExtension: "json")
+        URLSession.shared.dataTask(with: url!) { data, response, err in
+        guard let data = data else {return}
+        do{
+            let checkTime = try JSONDecoder().decode([TimeCheck].self, from: data)
+            self.time = checkTime
+        } catch let error as NSError{
+            print(error.localizedDescription)
+            }
+        }.resume()
 //            do{
 //                //option array
 //                guard let data = data
@@ -235,7 +230,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //            } catch let error as NSError{
 //                print(error.localizedDescription)
 //            }
-        }
     }
     
 //    func getCurrentTime() {
