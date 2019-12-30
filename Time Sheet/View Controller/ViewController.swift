@@ -26,6 +26,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var checkOutTime = [String]()
     
     var time = [TimeCheck]()
+    var currentTimeCheck = [TimeCheckCurrent]()
+    
     var currentCheckInTime = [String]()
     var currentCheckOutTime = [String]()
     
@@ -34,11 +36,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         calendarTable.dataSource = self
         calendarTable.delegate = self
         yearMonthLabel.textAlignment = NSTextAlignment.center
-        monthFormatter.dateFormat = "MM/YYYY"
+        monthFormatter.dateFormat = "MM/yyyy"
         date2 = monthFormatter.string(from: date)
         yearMonthLabel?.text = "\(date2)"
-        getTime()
         parse()
+        getTime()
 //        getCurrentTime()
         //header and footer
 //        calendarTable.tableHeaderView = headerView
@@ -75,7 +77,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        }else if indexPath.section == 1 {
 //            cell?.textLabel?.text = formattedDate
 //        }
-        getTime()
         switch indexPath.section {
         case 0:
             cellDefault?.textLabel?.text = "Tổng thời gian làm việc: 40 tiếng"
@@ -91,16 +92,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             fmtConvert.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             let fmtDisplay = DateFormatter()
             fmtDisplay.dateFormat = "HH:mm:ss"
-            if currentCheckInTime[indexPath.row] != "" && currentCheckOutTime[indexPath.row] != "" {
-                let checkIn = fmtConvert.date(from: currentCheckInTime[indexPath.row])
+//            if currentCheckInTime[indexPath.row] != "" && currentCheckOutTime[indexPath.row] != "" {
+//                let checkIn = fmtConvert.date(from: currentCheckInTime[indexPath.row])
+//                cell.checkinLabel.text = fmtDisplay.string(from: checkIn ?? Date())
+//                let checkOut = fmtConvert.date(from: currentCheckOutTime[indexPath.row])
+//                cell.checkoutLabel.text = fmtDisplay.string(from: checkOut ?? Date())
+//            } else {
+//                cell.checkinLabel.text = ""
+//                cell.checkoutLabel.text = ""
+//            }
+            if currentTimeCheck[indexPath.row].dayCheckIn != "" && currentTimeCheck[indexPath.row].dayCheckOut != "" {
+                let checkIn = fmtConvert.date(from: currentTimeCheck[indexPath.row].dayCheckIn)
                 cell.checkinLabel.text = fmtDisplay.string(from: checkIn ?? Date())
-                let checkOut = fmtConvert.date(from: currentCheckOutTime[indexPath.row])
+                let checkOut = fmtConvert.date(from: currentTimeCheck[indexPath.row].dayCheckOut)
                 cell.checkoutLabel.text = fmtDisplay.string(from: checkOut ?? Date())
             } else {
                 cell.checkinLabel.text = ""
                 cell.checkoutLabel.text = ""
             }
-            
+
             /*queue.async {
                 for i in self.checkInTime {
                     for j in self.checkOutTime {
@@ -210,10 +220,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         do{
             let checkTime = try JSONDecoder().decode([TimeCheck].self, from: data)
             self.time = checkTime
+            DispatchQueue.main.async {
+                self.getTime()
+                self.calendarTable.reloadData()
+            }
+
         } catch let error as NSError{
             print(error.localizedDescription)
             }
         }.resume()
+        
+
 //            do{
 //                //option array
 //                guard let data = data
@@ -257,13 +274,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 //        }
 //    }
     
+//    func getTime(){
+//        let range = calendar.range(of: .day, in: .month, for: date)!
+//        currentCheckOutTime = Array(repeating: "", count: range.count)
+//        currentCheckInTime = Array(repeating: "", count: range.count)
+//        let calendar = Calendar.current
+//        let monthCurrent = calendar.component(.month, from: date)
+//        let yearCurrent = calendar.component(.year, from: date)
+//        for i in 0..<time.count {
+//            let dateFormat = DateFormatter()
+//            dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
+//            let dateIndex = dateFormat.date(from: time[i].checkIn)
+//            let dayIndex = calendar.component(.day, from: dateIndex!)
+//            let monthIndex = calendar.component(.month, from: dateIndex!)
+//            let yearIndex = calendar.component(.year, from: dateIndex!)
+//            if yearIndex == yearCurrent && monthIndex == monthCurrent {
+//                currentCheckInTime[dayIndex - 1] = time[i].checkIn
+//                currentCheckOutTime[dayIndex - 1] = time[i].checkOut
+//            }
+//        }
+//    }
     func getTime(){
         let range = calendar.range(of: .day, in: .month, for: date)!
-        currentCheckOutTime = Array(repeating: "", count: range.count)
-        currentCheckInTime = Array(repeating: "", count: range.count)
-        let calendar = Calendar.current
         let monthCurrent = calendar.component(.month, from: date)
         let yearCurrent = calendar.component(.year, from: date)
+        let obj = TimeCheckCurrent(dayCheckIn: "", dayCheckOut: "")
+        currentTimeCheck = Array(repeating: obj, count: range.count)
         for i in 0..<time.count {
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
@@ -272,8 +308,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let monthIndex = calendar.component(.month, from: dateIndex!)
             let yearIndex = calendar.component(.year, from: dateIndex!)
             if yearIndex == yearCurrent && monthIndex == monthCurrent {
-                currentCheckInTime[dayIndex - 1] = time[i].checkIn
-                currentCheckOutTime[dayIndex - 1] = time[i].checkOut
+                currentTimeCheck[dayIndex - 1].dayCheckIn = time[i].checkIn
+                currentTimeCheck[dayIndex - 1].dayCheckOut = time[i].checkOut
             }
         }
     }

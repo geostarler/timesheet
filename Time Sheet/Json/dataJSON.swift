@@ -9,12 +9,22 @@
 import Foundation
 
 struct TimeCheck: Decodable {
-    let checkIn: String
-    let checkOut: String
+    var checkIn: String
+    var checkOut: String
     
     init(checkIn:String, checkOut:String) {
         self.checkIn = checkIn
         self.checkOut = checkOut
+    }
+}
+
+struct TimeCheckCurrent: Decodable {
+    var dayCheckIn:String
+    var dayCheckOut:String
+    init(dayCheckIn:String, dayCheckOut:String) {
+        self.dayCheckIn = dayCheckIn
+        self.dayCheckOut = dayCheckOut
+
     }
 }
 

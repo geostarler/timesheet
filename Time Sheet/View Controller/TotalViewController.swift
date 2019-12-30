@@ -28,7 +28,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         detailTable.delegate = self
         detailTable.dataSource = self
-        monthYearFormat.dateFormat = "MMM,YYYY"
+        monthYearFormat.dateFormat = "MMM/yyyy"
         monthYearLabel.text = monthYearFormat.string(from: date)
         // Do any additional setup after loading the view.
     }
