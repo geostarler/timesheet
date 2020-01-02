@@ -79,15 +79,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //get time
             cell.dayLabel.text = "\(formattedDate)"
             cell.dateLabel.text = "\(formattedDate2)"
+            if cell.dayLabel.text == "CN" || cell.dayLabel.text == "Th 7" {
+                cell.dayLabel.textColor = UIColor.red
+                cell.dateLabel.textColor = UIColor.red
+            }
             let fmtConvertDate = DateFormatter()
             fmtConvertDate.dateFormat = "yyyy-MM-dd"
             let fmtDisplayDate = DateFormatter()
             fmtDisplayDate.dateFormat = "(MM/dd)"
             let abc = fmtConvertDate.date(from: dayClCheck[indexPath.row].day)
-            let holiday = fmtDisplayDate.string(from: abc ?? date)
-            if cell.dayLabel.text == "CN" || cell.dayLabel.text == "Th 7" || cell.dateLabel.text == "\(holiday)"{
-                cell.dayLabel.textColor = UIColor.red
-                cell.dateLabel.textColor = UIColor.red
+            if dayClCheck[indexPath.row].day != "" {
+                let holiday = fmtDisplayDate.string(from: abc ?? date)
+                if cell.dateLabel.text == "\(holiday)"{
+                    cell.dayLabel.textColor = UIColor.red
+                    cell.dateLabel.textColor = UIColor.red
+                }
             }
             let fmtConvert = DateFormatter()
             fmtConvert.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
