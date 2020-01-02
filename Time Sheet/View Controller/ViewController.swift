@@ -84,8 +84,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let fmtDisplayDate = DateFormatter()
             fmtDisplayDate.dateFormat = "(MM/dd)"
             let abc = fmtConvertDate.date(from: dayClCheck[indexPath.row].day)
-            let x = fmtDisplayDate.string(from: abc ?? date)
-            if cell.dayLabel.text == "CN" || cell.dayLabel.text == "Th 7" || cell.dateLabel.text == "\(x)"{
+            let holiday = fmtDisplayDate.string(from: abc ?? date)
+            if cell.dayLabel.text == "CN" || cell.dayLabel.text == "Th 7" || cell.dateLabel.text == "\(holiday)"{
                 cell.dayLabel.textColor = UIColor.red
                 cell.dateLabel.textColor = UIColor.red
             }
