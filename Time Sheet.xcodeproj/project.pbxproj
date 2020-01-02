@@ -22,8 +22,8 @@
 		D422AE74239E37780018206D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422AE73239E37780018206D /* SettingViewController.swift */; };
 		D461050C23A0FB86008D62D9 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D461050A23A0FB86008D62D9 /* TableViewCell.swift */; };
 		D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D461050B23A0FB86008D62D9 /* TableViewCell.xib */; };
-		D4A6793B23BDA34900345CC6 /* dayCeleb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4A6793A23BDA34900345CC6 /* dayCeleb.json */; };
-		D4ABB1D123A38D8A00080D93 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D4ABB1D023A38D8A00080D93 /* data.json */; };
+		D4A6793D23BDFCC600345CC6 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D4A6793C23BDFCC600345CC6 /* data.json */; };
+		D4A6794123BDFD3200345CC6 /* dayCeleb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4A6794023BDFD3200345CC6 /* dayCeleb.json */; };
 		D4AC3B7E23AA302C000BECF8 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AC3B7D23AA302C000BECF8 /* TestObject.swift */; };
 		D4AC3B8023AA33BF000BECF8 /* dataJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */; };
 /* End PBXBuildFile section */
@@ -67,8 +67,8 @@
 		D422AE73239E37780018206D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		D461050A23A0FB86008D62D9 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		D461050B23A0FB86008D62D9 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
-		D4A6793A23BDA34900345CC6 /* dayCeleb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = dayCeleb.json; path = ../../../Desktop/dayCeleb.json; sourceTree = "<group>"; };
-		D4ABB1D023A38D8A00080D93 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = data.json; path = ../../../Desktop/data.json; sourceTree = "<group>"; };
+		D4A6793C23BDFCC600345CC6 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		D4A6794023BDFD3200345CC6 /* dayCeleb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dayCeleb.json; sourceTree = "<group>"; };
 		D4AC3B7D23AA302C000BECF8 /* TestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
 		D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -175,8 +175,8 @@
 		D4ABB1CE23A38D5400080D93 /* Json */ = {
 			isa = PBXGroup;
 			children = (
-				D4A6793A23BDA34900345CC6 /* dayCeleb.json */,
-				D4ABB1D023A38D8A00080D93 /* data.json */,
+				D4A6793C23BDFCC600345CC6 /* data.json */,
+				D4A6794023BDFD3200345CC6 /* dayCeleb.json */,
 				D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */,
 			);
 			path = Json;
@@ -297,11 +297,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4A6793B23BDA34900345CC6 /* dayCeleb.json in Resources */,
+				D4A6794123BDFD3200345CC6 /* dayCeleb.json in Resources */,
 				D422AE47239E33F10018206D /* LaunchScreen.storyboard in Resources */,
+				D4A6793D23BDFCC600345CC6 /* data.json in Resources */,
 				D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */,
 				D422AE44239E33F10018206D /* Assets.xcassets in Resources */,
-				D4ABB1D123A38D8A00080D93 /* data.json in Resources */,
 				D40F30BB23B058D2001E435A /* DetailTableViewCell.xib in Resources */,
 				D422AE42239E33ED0018206D /* Main.storyboard in Resources */,
 			);
