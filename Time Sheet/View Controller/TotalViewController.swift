@@ -23,7 +23,8 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
     var dayWorked = 0
     var totalHour = 0.00
     var totalCheck = 0.00
-
+    var overTime = 0.00
+    var overTimeCheck = 0.00
     let monthYearFormat = DateFormatter()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +47,6 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
                 date = calender.date(byAdding: .month, value: -1, to: date) ?? date
                 self.date2 = monthYearFormat.string(from: date)
                 monthYearLabel?.text = self.date2
-                totalCheck = 0.00
-                self.dayWorked = 0
                 getTime()
                 self.detailTable.reloadData()
         }
@@ -64,8 +63,6 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
                 date = calender.date(byAdding: .month, value: 1, to: date) ?? date
                 self.date2 = monthYearFormat.string(from: date)
                 monthYearLabel?.text = self.date2
-                totalCheck = 0.00
-                self.dayWorked = 0
                 getTime()
                 self.detailTable.reloadData()
         }
@@ -94,6 +91,9 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
     func getTime(){
         let monthCurrent = calender.component(.month, from: date)
         let yearCurrent = calender.component(.year, from: date)
+        totalCheck = 0.00
+        dayWorked = 0
+        overTime = 0.00
         for i in 0..<time.count {
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
@@ -104,16 +104,19 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
                 dayWorked += 1
                 let checkIn = dateFormat.date(from: time[i].checkIn)
                 let checkOut = dateFormat.date(from: time[i].checkOut)
-                totalCheck = totalCheck + (checkOut?.timeIntervalSince(checkIn ?? Date()))!
+                let timeOftheDay = checkOut?.timeIntervalSince(checkIn ?? Date())
+                totalCheck = totalCheck + timeOftheDay!
+                if timeOftheDay! > 9.00{
+                    overTimeCheck = overTime + (timeOftheDay! - 9.00)
+                }
             }
         }
         totalHour = totalCheck / 3600
+        overTime = overTimeCheck / 3600
     }
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let range = calender.range(of: .day, in: .month, for: date)!
-        return range.count
-//        return 10
+        return 10
     }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -158,7 +161,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
             return detailCell
         case 4:
             detailCell.detailLabel.text = "Hour worked (Average): "
-            if totalHour == 0 {
+            if dayWorked == 0 {
                 detailCell.timeLabel.text = "0"
             }else{
                 let averageHour = totalHour / Double(dayWorked)
@@ -169,11 +172,16 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
             return defaultCell!
         case 6:
             detailCell.detailLabel.text = "Overtime (Total): "
-            detailCell.timeLabel.text = "0"
+            detailCell.timeLabel.text = "\(overTime)"
             return detailCell
         case 7:
             detailCell.detailLabel.text = "Overtime (Average): "
-            detailCell.timeLabel.text = "0"
+            if dayWorked == 0{
+                detailCell.timeLabel.text = "0"
+            } else {
+                let averageOT = overTime / Double(dayWorked)
+                detailCell.timeLabel.text = "\(averageOT)"
+            }
             return detailCell
         case 8:
             return defaultCell!

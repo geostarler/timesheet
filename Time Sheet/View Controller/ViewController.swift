@@ -122,7 +122,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             date = calendar.date(byAdding: .month, value: -1, to: date) ?? date
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
-            totalCheck = 0.00
             getTime()
             self.calendarTable.reloadData()
         }
@@ -141,7 +140,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
-            totalCheck = 0.00
             getTime()
             self.calendarTable.reloadData()
         }
@@ -172,6 +170,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let yearCurrent = calendar.component(.year, from: date)
         let obj = TimeCheckCurrent(dayCheckIn: "", dayCheckOut: "")
         currentTimeCheck = Array(repeating: obj, count: range.count)
+        totalCheck = 0.00
         for i in 0..<time.count {
             let dateFormat = DateFormatter()
             dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
