@@ -37,6 +37,12 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oHq-1b-HHc" userLabel="DateLabel">
+                        <rect key="frame" x="53" y="12" width="0.0" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="mSa-ZX-WZZ" firstAttribute="leading" secondItem="Lyw-C2-Z6M" secondAttribute="trailing" constant="8" id="1sR-u0-gqk"/>
@@ -48,14 +54,18 @@
                     <constraint firstItem="Lyw-C2-Z6M" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="JH1-JT-dPC"/>
                     <constraint firstItem="Lyw-C2-Z6M" firstAttribute="leading" secondItem="qi9-E2-NEN" secondAttribute="trailing" constant="8" id="T8a-p4-jaf"/>
                     <constraint firstItem="mSa-ZX-WZZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="VQS-5F-Gru"/>
+                    <constraint firstItem="oHq-1b-HHc" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="aA8-hv-BO0"/>
                     <constraint firstAttribute="bottom" secondItem="qi9-E2-NEN" secondAttribute="bottom" constant="4" id="arW-CB-SIK"/>
                     <constraint firstAttribute="bottom" secondItem="mSa-ZX-WZZ" secondAttribute="bottom" constant="4" id="cyT-95-xOo"/>
+                    <constraint firstItem="oHq-1b-HHc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="53" id="fO2-v5-1iR"/>
+                    <constraint firstAttribute="bottom" secondItem="oHq-1b-HHc" secondAttribute="bottom" constant="11" id="xCK-Br-MbX"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="checkinLabel" destination="Lyw-C2-Z6M" id="8ST-a0-k8e"/>
                 <outlet property="checkoutLabel" destination="mSa-ZX-WZZ" id="EQf-2M-L3q"/>
+                <outlet property="dateLabel" destination="oHq-1b-HHc" id="1Ts-7o-ceu"/>
                 <outlet property="dayLabel" destination="qi9-E2-NEN" id="Eku-0j-DBW"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>

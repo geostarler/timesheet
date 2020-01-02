@@ -22,15 +22,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var date2:String = ""
     let monthFormatter = DateFormatter()
     let calendar = Calendar.current
-    var checkInTime = [String]()
-    var checkOutTime = [String]()
+
     var totalCheck = 0.00
     var totalHour = 0.00
     var time = [TimeCheck]()
+    var dayCl = [DayCeleb]()
+    var dayClCheck = [DayCelebCurrent]()
     var currentTimeCheck = [TimeCheckCurrent]()
-    
-    var currentCheckInTime = [String]()
-    var currentCheckOutTime = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +39,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         date2 = monthFormatter.string(from: date)
         yearMonthLabel?.text = "\(date2)"
         parse()
+        parse2()
+        getDay()
         getTime()
         }
     
@@ -64,8 +64,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cellDate = dateFormatter.date(from:day)!
         let cellDateFormatter = DateFormatter()
         cellDateFormatter.locale = Locale(identifier: "vi_VN")
-        cellDateFormatter.dateFormat = "dd (EE)"
+        cellDateFormatter.dateFormat = "EE"
+        let cellDateFormatter2 = DateFormatter()
+        cellDateFormatter2.locale = Locale(identifier: "vi_VN")
+        cellDateFormatter2.dateFormat = "(MM/dd)"
         let formattedDate = cellDateFormatter.string(from: cellDate)
+        let formattedDate2 = cellDateFormatter2.string(from: cellDate)
         switch indexPath.section {
         case 0:
             cellDefault?.textLabel?.text = "Tổng thời gian làm việc: \(totalHour)"
@@ -74,11 +78,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case 1:
             //get time
             cell.dayLabel.text = "\(formattedDate)"
+            cell.dateLabel.text = "\(formattedDate2)"
+            let fmtConvertDate = DateFormatter()
+            fmtConvertDate.dateFormat = "yyyy-MM-dd"
+            let fmtDisplayDate = DateFormatter()
+            fmtDisplayDate.dateFormat = "(MM/dd)"
+            let abc = fmtConvertDate.date(from: dayClCheck[indexPath.row].day)
+            let x = fmtDisplayDate.string(from: abc ?? date)
+            if cell.dayLabel.text == "CN" || cell.dayLabel.text == "Th 7" || cell.dateLabel.text == "\(x)"{
+                cell.dayLabel.textColor = UIColor.red
+                cell.dateLabel.textColor = UIColor.red
+            }
             let fmtConvert = DateFormatter()
             fmtConvert.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             let fmtDisplay = DateFormatter()
             fmtDisplay.dateFormat = "HH:mm:ss"
-            if currentTimeCheck[indexPath.row].dayCheckIn != "" || currentTimeCheck[indexPath.row].dayCheckOut != "" {
+            if currentTimeCheck[indexPath.row].dayCheckIn != "" && currentTimeCheck[indexPath.row].dayCheckOut != "" {
                 let checkIn = fmtConvert.date(from: currentTimeCheck[indexPath.row].dayCheckIn)
                 cell.checkinLabel.text = fmtDisplay.string(from: checkIn ?? Date())
                 let checkOut = fmtConvert.date(from: currentTimeCheck[indexPath.row].dayCheckOut)
@@ -122,6 +137,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             date = calendar.date(byAdding: .month, value: -1, to: date) ?? date
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
+            getDay()
             getTime()
             self.calendarTable.reloadData()
         }
@@ -140,6 +156,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
             date2 = monthFormatter.string(from: date)
             yearMonthLabel?.text = date2
+            getDay()
             getTime()
             self.calendarTable.reloadData()
         }
@@ -148,6 +165,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //parse data
     func parse(){
         let url = Bundle.main.url(forResource: "data", withExtension: "json")
+        
         URLSession.shared.dataTask(with: url!) { data, response, err in
         guard let data = data else {return}
         do{
@@ -161,6 +179,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } catch let error as NSError{
             print(error.localizedDescription)
             }
+        }.resume()
+    }
+    
+    func parse2(){
+        let url2 = Bundle.main.url(forResource: "dayCeleb", withExtension: "json")
+        URLSession.shared.dataTask(with: url2!) {data, response, err in
+            guard let data = data else {return}
+            do{
+                let dayCeleb = try JSONDecoder().decode([DayCeleb].self, from: data)
+                self.dayCl = dayCeleb
+                DispatchQueue.main.async {
+                    self.getDay()
+                    self.calendarTable.reloadData()
+                }
+            } catch let error as NSError{
+                print(error.localizedDescription)
+                }
         }.resume()
     }
 
@@ -187,6 +222,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         totalHour = totalCheck / 3600
+    }
+    
+    func getDay(){
+        let range = calendar.range(of: .day, in: .month, for: date)!
+        let monthCurrent = calendar.component(.month, from: date)
+        let yearCurrent = calendar.component(.year, from: date)
+        let obj = DayCelebCurrent(day: "")
+        dayClCheck = Array(repeating: obj, count: range.count)
+        for i in 0..<dayCl.count {
+            let dateFormat = DateFormatter()
+            dateFormat.dateFormat = "yyyy-MM-dd"
+            let dateIndex1 = dateFormat.date(from: dayCl[i].day)
+            let dayIndex1 = calendar.component(.day, from: dateIndex1!)
+            let monthIndex1 = calendar.component(.month, from: dateIndex1!)
+            let yearIndex1 = calendar.component(.year, from: dateIndex1!)
+            if yearIndex1 == yearCurrent && monthIndex1 == monthCurrent {
+                dayClCheck[dayIndex1 - 1].day = dayCl[i].day
+            }
+        }
     }
 }
 

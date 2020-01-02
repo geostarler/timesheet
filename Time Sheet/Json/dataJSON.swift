@@ -18,6 +18,22 @@ struct TimeCheck: Decodable {
     }
 }
 
+struct DayCeleb: Decodable {
+    var day: String
+    
+    init(day: String) {
+        self.day = day
+    }
+}
+
+struct DayCelebCurrent: Decodable {
+    var day: String
+    
+    init(day: String) {
+        self.day = day
+    }
+}
+
 struct TimeCheckCurrent: Decodable {
     var dayCheckIn:String
     var dayCheckOut:String
