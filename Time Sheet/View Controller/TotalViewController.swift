@@ -22,8 +22,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
     var currentTimeCheck = [TimeCheckCurrent]()
     var dayWorked = 0
     var totalHour = 0.00
-    var totalCheckIn = 0.00
-    var totalCheckOut = 0.00
+    var totalCheck = 0.00
 
     let monthYearFormat = DateFormatter()
     override func viewDidLoad() {
@@ -47,8 +46,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
                 date = calender.date(byAdding: .month, value: -1, to: date) ?? date
                 self.date2 = monthYearFormat.string(from: date)
                 monthYearLabel?.text = self.date2
-                totalCheckIn = 0.00
-                totalCheckOut = 0.00
+                totalCheck = 0.00
                 self.dayWorked = 0
                 getTime()
                 self.detailTable.reloadData()
@@ -66,8 +64,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
                 date = calender.date(byAdding: .month, value: 1, to: date) ?? date
                 self.date2 = monthYearFormat.string(from: date)
                 monthYearLabel?.text = self.date2
-                totalCheckIn = 0.00
-                totalCheckOut = 0.00
+                totalCheck = 0.00
                 self.dayWorked = 0
                 getTime()
                 self.detailTable.reloadData()
@@ -95,49 +92,22 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     //get time
     func getTime(){
-        let range = calender.range(of: .day, in: .month, for: date)!
         let monthCurrent = calender.component(.month, from: date)
         let yearCurrent = calender.component(.year, from: date)
-        let obj = TimeCheckCurrent(dayCheckIn: "", dayCheckOut: "")
-        currentTimeCheck = Array(repeating: obj, count: range.count)
         for i in 0..<time.count {
             let dateFormat = DateFormatter()
-            dateFormat.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
+            dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             let dateIndex = dateFormat.date(from: time[i].checkIn)
             let monthIndex = calender.component(.month, from: dateIndex!)
             let yearIndex = calender.component(.year, from: dateIndex!)
-            let fmtHour = DateFormatter()
-            let fmtMinute = DateFormatter()
-            let fmtSecond = DateFormatter()
-            fmtHour.dateFormat = "HH"
-            fmtMinute.dateFormat = "mm"
-            fmtSecond.dateFormat = "ss"
-            
             if yearIndex == yearCurrent && monthIndex == monthCurrent {
                 dayWorked += 1
                 let checkIn = dateFormat.date(from: time[i].checkIn)
-                print(time[i].checkIn)
-                let hourCi = fmtHour.string(from: checkIn ?? Date())
-                let minuteCi = fmtMinute.string(from: checkIn ?? Date())
-                let secondCi = fmtSecond.string(from: checkIn ?? Date())
-                let checkInTime = getHourInt(hourString: hourCi, minuteString: minuteCi, secondsString: secondCi)
-                
                 let checkOut = dateFormat.date(from: time[i].checkOut)
-                print(time[i].checkOut)
-                let hourCo = fmtHour.string(from: checkOut ?? Date())
-                let minuteCo = fmtMinute.string(from: checkOut ?? Date())
-                let secondCo = fmtSecond.string(from: checkOut ?? Date())
-                let checkOutTime = getHourInt(hourString: hourCo, minuteString: minuteCo, secondsString: secondCo)
-                print("hour: \(hourCi)")
-                print("hour: \(hourCo)")
-                totalCheckIn = totalCheckIn + checkInTime
-                totalCheckOut = totalCheckOut + checkOutTime
-                
-//                print("\(checkInTime) \(checkOutTime)")
+                totalCheck = totalCheck + (checkOut?.timeIntervalSince(checkIn ?? Date()))!
             }
         }
-//        print(" final \(totalCheckIn) \(totalCheckOut) \(totalHour)")
-        totalHour = (totalCheckOut - totalCheckIn) / 3600
+        totalHour = totalCheck / 3600
     }
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -145,14 +115,7 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
         return range.count
 //        return 10
     }
-    
-    //convert hour to int
-    func getHourInt(hourString: String, minuteString: String, secondsString: String) -> Double {
-        let hour = Double(hourString)!
-        let minute = Double(minuteString)!
-        let second = Double(secondsString)!
-        return(hour * 3600 + minute * 60 + second)
-    }
+   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let defaultCell = detailTable.dequeueReusableCell(withIdentifier: "Cell")
         let cell = detailTable.dequeueReusableCell(withIdentifier: "DetailTableViewCell")
