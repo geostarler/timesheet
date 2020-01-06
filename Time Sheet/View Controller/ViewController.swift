@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ObjectMapper
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -25,8 +26,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     var totalCheck = 0.00
     var totalHour = 0.00
-    var time = [TimeCheck]()
-    var dayCl = [DayCeleb]()
+    var time = [CheckTime]()
+    var dayCl = [Holiday]()
     var dayClCheck = [DayCelebCurrent]()
     var currentTimeCheck = [TimeCheckCurrent]()
     
@@ -59,9 +60,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         //show day of the month
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let cellDate = dateFormatter.date(from:day)!
+        let cellDate = DateUtils.stringToDate2(date: day)
         let cellDateFormatter = DateFormatter()
         cellDateFormatter.locale = Locale(identifier: "vi_VN")
         cellDateFormatter.dateFormat = "EE"
@@ -83,27 +82,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell.dayLabel.textColor = UIColor.red
                 cell.dateLabel.textColor = UIColor.red
             }
-            let fmtConvertDate = DateFormatter()
-            fmtConvertDate.dateFormat = "yyyy-MM-dd"
             let fmtDisplayDate = DateFormatter()
             fmtDisplayDate.dateFormat = "(MM/dd)"
-            let abc = fmtConvertDate.date(from: dayClCheck[indexPath.row].day)
+            let holidayDate = DateUtils.stringToDate2(date: dayClCheck[indexPath.row].day)
             if dayClCheck[indexPath.row].day != "" {
-                let holiday = fmtDisplayDate.string(from: abc ?? date)
+                let holiday = fmtDisplayDate.string(from: holidayDate)
                 if cell.dateLabel.text == "\(holiday)"{
                     cell.dayLabel.textColor = UIColor.red
                     cell.dateLabel.textColor = UIColor.red
                 }
             }
-            let fmtConvert = DateFormatter()
-            fmtConvert.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
             let fmtDisplay = DateFormatter()
             fmtDisplay.dateFormat = "HH:mm:ss"
             if currentTimeCheck[indexPath.row].dayCheckIn != "" && currentTimeCheck[indexPath.row].dayCheckOut != "" {
-                let checkIn = fmtConvert.date(from: currentTimeCheck[indexPath.row].dayCheckIn)
-                cell.checkinLabel.text = fmtDisplay.string(from: checkIn ?? Date())
-                let checkOut = fmtConvert.date(from: currentTimeCheck[indexPath.row].dayCheckOut)
-                cell.checkoutLabel.text = fmtDisplay.string(from: checkOut ?? Date())
+                let checkIn = DateUtils.stringToDate(date: currentTimeCheck[indexPath.row].dayCheckIn)
+                cell.checkinLabel.text = fmtDisplay.string(from: checkIn)
+                let checkOut = DateUtils.stringToDate(date: currentTimeCheck[indexPath.row].dayCheckOut)
+                cell.checkoutLabel.text = fmtDisplay.string(from: checkOut)
             } else {
                 cell.checkinLabel.text = ""
                 cell.checkoutLabel.text = ""
@@ -131,6 +126,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return numDays
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        let month = calendar.component(.month, from: date)
+        if month == 1 {
+            self.backButton.isEnabled = false
+            self.nextButton.isEnabled = true
+        }else if month == 12 {
+            self.backButton.isEnabled = true
+            self.nextButton.isEnabled = false
+        }
+    }
+    
     //back button
     @IBAction func backButton(_ sender: Any) {
         let month = calendar.component(.month, from: date)
@@ -147,7 +153,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             getTime()
             self.calendarTable.reloadData()
         }
-       
+        if month == 2 {
+            self.backButton.isEnabled = false
+            self.nextButton.isEnabled = true
+        }
     }
     
     //next button
@@ -156,7 +165,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if month == 12 {
             self.nextButton.isEnabled = false
             self.backButton.isEnabled = true
-        }else {
+        }
+        else {
             self.nextButton.isEnabled = true
             self.backButton.isEnabled = true
             date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
@@ -166,45 +176,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             getTime()
             self.calendarTable.reloadData()
         }
+        if month == 11 {
+            self.nextButton.isEnabled = false
+            self.backButton.isEnabled = true
+        }
     }
     
     //parse data
     func parse(){
-        let url = Bundle.main.url(forResource: "data", withExtension: "json")
-        
-        URLSession.shared.dataTask(with: url!) { data, response, err in
-        guard let data = data else {return}
-        do{
-            let checkTime = try JSONDecoder().decode([TimeCheck].self, from: data)
-            self.time = checkTime
-            DispatchQueue.main.async {
-                self.getTime()
-                self.calendarTable.reloadData()
-            }
-
-        } catch let error as NSError{
-            print(error.localizedDescription)
-            }
-        }.resume()
+        time = Mapper<CheckTime>().mapArray(JSONfile: "data.json")!
     }
-    
     func parse2(){
-        let url2 = Bundle.main.url(forResource: "dayCeleb", withExtension: "json")
-        URLSession.shared.dataTask(with: url2!) {data, response, err in
-            guard let data = data else {return}
-            do{
-                let dayCeleb = try JSONDecoder().decode([DayCeleb].self, from: data)
-                self.dayCl = dayCeleb
-                DispatchQueue.main.async {
-                    self.getDay()
-                    self.calendarTable.reloadData()
-                }
-            } catch let error as NSError{
-                print(error.localizedDescription)
-                }
-        }.resume()
+        dayCl = Mapper<Holiday>().mapArray(JSONfile: "dayCeleb.json")!
     }
-
+    //ObjectMapper
+    
+    
     func getTime(){
         let range = calendar.range(of: .day, in: .month, for: date)!
         let monthCurrent = calendar.component(.month, from: date)
@@ -213,18 +200,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         currentTimeCheck = Array(repeating: obj, count: range.count)
         totalCheck = 0.00
         for i in 0..<time.count {
-            let dateFormat = DateFormatter()
-            dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-            let dateIndex = dateFormat.date(from: time[i].checkIn)
-            let dayIndex = calendar.component(.day, from: dateIndex!)
-            let monthIndex = calendar.component(.month, from: dateIndex!)
-            let yearIndex = calendar.component(.year, from: dateIndex!)
+            let dateIndex = DateUtils.stringToDate(date: time[i].checkIn!)
+            let dayIndex = calendar.component(.day, from: dateIndex)
+            let monthIndex = calendar.component(.month, from: dateIndex)
+            let yearIndex = calendar.component(.year, from: dateIndex)
             if yearIndex == yearCurrent && monthIndex == monthCurrent {
-                currentTimeCheck[dayIndex - 1].dayCheckIn = time[i].checkIn
-                currentTimeCheck[dayIndex - 1].dayCheckOut = time[i].checkOut
-                let checkIn = dateFormat.date(from: time[i].checkIn)
-                let checkOut = dateFormat.date(from: time[i].checkOut)
-                totalCheck = totalCheck + (checkOut?.timeIntervalSince(checkIn ?? Date()))!
+                currentTimeCheck[dayIndex - 1].dayCheckIn = time[i].checkIn!
+                currentTimeCheck[dayIndex - 1].dayCheckOut = time[i].checkOut!
+                let checkIn = DateUtils.stringToDate(date: time[i].checkIn!)
+                let checkOut = DateUtils.stringToDate(date: time[i].checkOut!)
+                totalCheck = totalCheck + (checkOut.timeIntervalSince(checkIn))
             }
         }
         totalHour = totalCheck / 3600
@@ -237,14 +222,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let obj = DayCelebCurrent(day: "")
         dayClCheck = Array(repeating: obj, count: range.count)
         for i in 0..<dayCl.count {
-            let dateFormat = DateFormatter()
-            dateFormat.dateFormat = "yyyy-MM-dd"
-            let dateIndex1 = dateFormat.date(from: dayCl[i].day)
-            let dayIndex1 = calendar.component(.day, from: dateIndex1!)
-            let monthIndex1 = calendar.component(.month, from: dateIndex1!)
-            let yearIndex1 = calendar.component(.year, from: dateIndex1!)
-            if yearIndex1 == yearCurrent && monthIndex1 == monthCurrent {
-                dayClCheck[dayIndex1 - 1].day = dayCl[i].day
+            let dateIndex = DateUtils.stringToDate2(date: dayCl[i].day!)
+            let dayIndex = calendar.component(.day, from: dateIndex)
+            let monthIndex = calendar.component(.month, from: dateIndex)
+            let yearIndex = calendar.component(.year, from: dateIndex)
+            if yearIndex == yearCurrent && monthIndex == monthCurrent {
+                dayClCheck[dayIndex - 1].day = dayCl[i].day!
             }
         }
     }

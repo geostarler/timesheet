@@ -95,19 +95,17 @@ class TotalViewController: UIViewController, UITableViewDataSource, UITableViewD
         dayWorked = 0
         overTime = 0.00
         for i in 0..<time.count {
-            let dateFormat = DateFormatter()
-            dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-            let dateIndex = dateFormat.date(from: time[i].checkIn)
-            let monthIndex = calender.component(.month, from: dateIndex!)
-            let yearIndex = calender.component(.year, from: dateIndex!)
+            let dateIndex = DateUtils.stringToDate(date: time[i].checkIn)
+            let monthIndex = calender.component(.month, from: dateIndex)
+            let yearIndex = calender.component(.year, from: dateIndex)
             if yearIndex == yearCurrent && monthIndex == monthCurrent {
                 dayWorked += 1
-                let checkIn = dateFormat.date(from: time[i].checkIn)
-                let checkOut = dateFormat.date(from: time[i].checkOut)
-                let timeOftheDay = checkOut?.timeIntervalSince(checkIn ?? Date())
-                totalCheck = totalCheck + timeOftheDay!
-                if timeOftheDay! > 9.00{
-                    overTimeCheck = overTime + (timeOftheDay! - 9.00)
+                let checkIn = DateUtils.stringToDate(date: time[i].checkIn)
+                let checkOut = DateUtils.stringToDate(date: time[i].checkOut)
+                let timeOftheDay = checkOut.timeIntervalSince(checkIn)
+                totalCheck = totalCheck + timeOftheDay
+                if timeOftheDay > 9.00{
+                    overTimeCheck = overTime + (timeOftheDay - 9.00)
                 }
             }
         }

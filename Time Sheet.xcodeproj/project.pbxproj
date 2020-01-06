@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C410059273D54D40D4242C6 /* Pods_Time_Sheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B86E1A1906D678EBE00CF4E9 /* Pods_Time_Sheet.framework */; };
 		D40F30BA23B058D2001E435A /* DetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40F30B823B058D2001E435A /* DetailTableViewCell.swift */; };
 		D40F30BB23B058D2001E435A /* DetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D40F30B923B058D2001E435A /* DetailTableViewCell.xib */; };
 		D422AE3B239E33ED0018206D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422AE3A239E33ED0018206D /* AppDelegate.swift */; };
@@ -24,6 +25,8 @@
 		D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D461050B23A0FB86008D62D9 /* TableViewCell.xib */; };
 		D4A6793D23BDFCC600345CC6 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D4A6793C23BDFCC600345CC6 /* data.json */; };
 		D4A6794123BDFD3200345CC6 /* dayCeleb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4A6794023BDFD3200345CC6 /* dayCeleb.json */; };
+		D4A6794623BE052300345CC6 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A6794523BE052300345CC6 /* DateUtils.swift */; };
+		D4A6794B23BEE1D100345CC6 /* ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A6794A23BEE1D100345CC6 /* ObjectMapper.swift */; };
 		D4AC3B7E23AA302C000BECF8 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AC3B7D23AA302C000BECF8 /* TestObject.swift */; };
 		D4AC3B8023AA33BF000BECF8 /* dataJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */; };
 /* End PBXBuildFile section */
@@ -46,6 +49,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		874627C8206A3048FCCC49CF /* Pods-Time Sheet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Time Sheet.debug.xcconfig"; path = "Target Support Files/Pods-Time Sheet/Pods-Time Sheet.debug.xcconfig"; sourceTree = "<group>"; };
+		B86E1A1906D678EBE00CF4E9 /* Pods_Time_Sheet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Time_Sheet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40F30B823B058D2001E435A /* DetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTableViewCell.swift; sourceTree = "<group>"; };
 		D40F30B923B058D2001E435A /* DetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailTableViewCell.xib; sourceTree = "<group>"; };
 		D422AE37239E33ED0018206D /* Time Sheet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Time Sheet.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,8 +74,11 @@
 		D461050B23A0FB86008D62D9 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		D4A6793C23BDFCC600345CC6 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		D4A6794023BDFD3200345CC6 /* dayCeleb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dayCeleb.json; sourceTree = "<group>"; };
+		D4A6794523BE052300345CC6 /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		D4A6794A23BEE1D100345CC6 /* ObjectMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectMapper.swift; sourceTree = "<group>"; };
 		D4AC3B7D23AA302C000BECF8 /* TestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
 		D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dataJSON.swift; sourceTree = "<group>"; };
+		F4B0AE713C7011DE7A8740A8 /* Pods-Time Sheet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Time Sheet.release.xcconfig"; path = "Target Support Files/Pods-Time Sheet/Pods-Time Sheet.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C410059273D54D40D4242C6 /* Pods_Time_Sheet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +107,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A82E70E1C985907F7BD9EC36 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B86E1A1906D678EBE00CF4E9 /* Pods_Time_Sheet.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D422AE2E239E33EC0018206D = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +122,8 @@
 				D422AE50239E33F20018206D /* Time SheetTests */,
 				D422AE5B239E33F20018206D /* Time SheetUITests */,
 				D422AE38239E33ED0018206D /* Products */,
+				FF9288643D8D13322C866C25 /* Pods */,
+				A82E70E1C985907F7BD9EC36 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,12 +140,13 @@
 		D422AE39239E33ED0018206D /* Time Sheet */ = {
 			isa = PBXGroup;
 			children = (
-				D4ABB1CF23A38D6000080D93 /* Cell */,
-				D4ABB1CE23A38D5400080D93 /* Json */,
+				D4A6794923BEE16900345CC6 /* Model */,
+				D4ABB1CE23A38D5400080D93 /* Data */,
 				D422AE6E239E369A0018206D /* View */,
 				D422AE6C239E367F0018206D /* View Controller */,
-				D422AE3A239E33ED0018206D /* AppDelegate.swift */,
+				D4A6794423BE051300345CC6 /* Util */,
 				D422AE3C239E33ED0018206D /* SceneDelegate.swift */,
+				D422AE3A239E33ED0018206D /* AppDelegate.swift */,
 				D422AE43239E33F10018206D /* Assets.xcassets */,
 				D422AE45239E33F10018206D /* LaunchScreen.storyboard */,
 				D422AE48239E33F10018206D /* Info.plist */,
@@ -167,19 +187,36 @@
 		D422AE6E239E369A0018206D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D4ABB1CF23A38D6000080D93 /* Cell */,
 				D422AE40239E33ED0018206D /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		D4ABB1CE23A38D5400080D93 /* Json */ = {
+		D4A6794423BE051300345CC6 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D4A6794523BE052300345CC6 /* DateUtils.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		D4A6794923BEE16900345CC6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */,
+				D4A6794A23BEE1D100345CC6 /* ObjectMapper.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D4ABB1CE23A38D5400080D93 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				D4A6793C23BDFCC600345CC6 /* data.json */,
 				D4A6794023BDFD3200345CC6 /* dayCeleb.json */,
-				D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */,
 			);
-			path = Json;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		D4ABB1CF23A38D6000080D93 /* Cell */ = {
@@ -193,6 +230,15 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		FF9288643D8D13322C866C25 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				874627C8206A3048FCCC49CF /* Pods-Time Sheet.debug.xcconfig */,
+				F4B0AE713C7011DE7A8740A8 /* Pods-Time Sheet.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -200,9 +246,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D422AE61239E33F20018206D /* Build configuration list for PBXNativeTarget "Time Sheet" */;
 			buildPhases = (
+				1D12090E63D6148F66CC00D1 /* [CP] Check Pods Manifest.lock */,
 				D422AE33239E33ED0018206D /* Sources */,
 				D422AE34239E33ED0018206D /* Frameworks */,
 				D422AE35239E33ED0018206D /* Resources */,
+				8BAFCD38059E120776A22C72 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -323,11 +371,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1D12090E63D6148F66CC00D1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Time Sheet-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8BAFCD38059E120776A22C72 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Time Sheet/Pods-Time Sheet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Time Sheet/Pods-Time Sheet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Time Sheet/Pods-Time Sheet-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D422AE33239E33ED0018206D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4A6794623BE052300345CC6 /* DateUtils.swift in Sources */,
+				D4A6794B23BEE1D100345CC6 /* ObjectMapper.swift in Sources */,
 				D422AE3B239E33ED0018206D /* AppDelegate.swift in Sources */,
 				D422AE3D239E33ED0018206D /* SceneDelegate.swift in Sources */,
 				D4AC3B7E23AA302C000BECF8 /* TestObject.swift in Sources */,
@@ -508,6 +600,7 @@
 		};
 		D422AE62239E33F20018206D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 874627C8206A3048FCCC49CF /* Pods-Time Sheet.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -525,6 +618,7 @@
 		};
 		D422AE63239E33F20018206D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4B0AE713C7011DE7A8740A8 /* Pods-Time Sheet.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
