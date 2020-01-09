@@ -27,16 +27,52 @@ struct CheckTime: Mappable {
     
 }
 
-struct Holiday: Mappable {
-
-    var day: String?
+class HolidayResponse: Mappable {
+    var meta: String?
+//    var response:[Holidays]?
     
-    init?(map: Map){
+    required init?(map: Map) {
         
     }
-
-     mutating func mapping(map: Map) {
-        day <- map["day"]
-    }
     
+    func mapping(map: Map) {
+        meta <- map["meta.code"]
+//        response <- map["response"]
+    }
 }
+//struct Holidays: Mappable {
+//    init?(map: Map) {
+//
+//    }
+//
+//    mutating func mapping(map: Map) {
+//        holidays <- map["holidays"]
+//    }
+//
+//    var holidays:[HolidayDetail]?
+//}
+//struct HolidayDetail: Mappable {
+//    init?(map: Map) {
+//
+//    }
+//
+//    mutating func mapping(map: Map) {
+//        name <- map["name"]
+//        date <- map["date"]
+//    }
+//
+//    var name:String?
+//    var date:DateInfo?
+//}
+//struct DateInfo: Mappable {
+//    init?(map: Map) {
+//
+//    }
+//
+//    mutating func mapping(map: Map) {
+//        iso <- map["iso"]
+//    }
+//
+//    var iso:String?
+//}
+//

@@ -37,6 +37,7 @@ struct DayCelebCurrent: Decodable {
 struct TimeCheckCurrent: Decodable {
     var dayCheckIn:String
     var dayCheckOut:String
+    
     init(dayCheckIn:String, dayCheckOut:String) {
         self.dayCheckIn = dayCheckIn
         self.dayCheckOut = dayCheckOut
@@ -51,3 +52,12 @@ struct TimeCheckCurrent: Decodable {
 //        self.timeChecks = timeChecks
 //    }
 //}
+
+
+struct DateInfoCheck: Decodable {
+    var iso:String
+    
+    init(iso: String){
+        self.iso = iso
+    }
+}

@@ -23,6 +23,7 @@
 		D422AE74239E37780018206D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422AE73239E37780018206D /* SettingViewController.swift */; };
 		D461050C23A0FB86008D62D9 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D461050A23A0FB86008D62D9 /* TableViewCell.swift */; };
 		D461050D23A0FB86008D62D9 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D461050B23A0FB86008D62D9 /* TableViewCell.xib */; };
+		D4A512FA23C315C800ADB2D8 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A512F923C315C800ADB2D8 /* APIRequest.swift */; };
 		D4A6793D23BDFCC600345CC6 /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = D4A6793C23BDFCC600345CC6 /* data.json */; };
 		D4A6794123BDFD3200345CC6 /* dayCeleb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4A6794023BDFD3200345CC6 /* dayCeleb.json */; };
 		D4A6794623BE052300345CC6 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A6794523BE052300345CC6 /* DateUtils.swift */; };
@@ -72,6 +73,7 @@
 		D422AE73239E37780018206D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		D461050A23A0FB86008D62D9 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		D461050B23A0FB86008D62D9 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
+		D4A512F923C315C800ADB2D8 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		D4A6793C23BDFCC600345CC6 /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		D4A6794023BDFD3200345CC6 /* dayCeleb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dayCeleb.json; sourceTree = "<group>"; };
 		D4A6794523BE052300345CC6 /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			children = (
 				D4AC3B7F23AA33BF000BECF8 /* dataJSON.swift */,
 				D4A6794A23BEE1D100345CC6 /* ObjectMapper.swift */,
+				D4A512F923C315C800ADB2D8 /* APIRequest.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 				D422AE70239E375E0018206D /* ViewController.swift in Sources */,
 				D422AE72239E376B0018206D /* TotalViewController.swift in Sources */,
 				D422AE6B239E36750018206D /* HomeViewController.swift in Sources */,
+				D4A512FA23C315C800ADB2D8 /* APIRequest.swift in Sources */,
 				D461050C23A0FB86008D62D9 /* TableViewCell.swift in Sources */,
 				D4AC3B8023AA33BF000BECF8 /* dataJSON.swift in Sources */,
 				D40F30BA23B058D2001E435A /* DetailTableViewCell.swift in Sources */,

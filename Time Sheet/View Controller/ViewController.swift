@@ -8,7 +8,8 @@
 
 import UIKit
 import ObjectMapper
-
+import Alamofire
+import AlamofireObjectMapper
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var headerView: UIView!
@@ -27,10 +28,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var totalCheck = 0.00
     var totalHour = 0.00
     var time = [CheckTime]()
-    var dayCl = [Holiday]()
-    var dayClCheck = [DayCelebCurrent]()
+    var dayCl = [HolidayResponse]()
+    var dayClCheck = [DateInfoCheck]()
     var currentTimeCheck = [TimeCheckCurrent]()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
@@ -39,10 +40,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         monthFormatter.dateFormat = "MM/yyyy"
         date2 = monthFormatter.string(from: date)
         yearMonthLabel?.text = "\(date2)"
+        backButton.isEnabled = true
+        nextButton.isEnabled = true
         parse()
         parse2()
         getDay()
         getTime()
+        calendarTable.reloadData()
         }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -84,9 +88,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             let fmtDisplayDate = DateFormatter()
             fmtDisplayDate.dateFormat = "(MM/dd)"
-            let holidayDate = DateUtils.stringToDate2(date: dayClCheck[indexPath.row].day)
-            if dayClCheck[indexPath.row].day != "" {
+            let holidayDate = DateUtils.stringToDate2(date: dayClCheck[indexPath.row].iso)
+            print(dayClCheck[indexPath.row].iso)
+            if dayClCheck[indexPath.row].iso != "" {
                 let holiday = fmtDisplayDate.string(from: holidayDate)
+                print(holiday)
                 if cell.dateLabel.text == "\(holiday)"{
                     cell.dayLabel.textColor = UIColor.red
                     cell.dateLabel.textColor = UIColor.red
@@ -126,71 +132,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return numDays
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        let month = calendar.component(.month, from: date)
-        if month == 1 {
-            self.backButton.isEnabled = false
-            self.nextButton.isEnabled = true
-        }else if month == 12 {
-            self.backButton.isEnabled = true
-            self.nextButton.isEnabled = false
-        }
-    }
     
     //back button
     @IBAction func backButton(_ sender: Any) {
-        let month = calendar.component(.month, from: date)
-        if month == 1 {
-            self.backButton.isEnabled = false
-            self.nextButton.isEnabled = true
-        }else {
-            self.backButton.isEnabled = true
-            self.nextButton.isEnabled = true
-            date = calendar.date(byAdding: .month, value: -1, to: date) ?? date
-            date2 = monthFormatter.string(from: date)
-            yearMonthLabel?.text = date2
-            getDay()
-            getTime()
-            self.calendarTable.reloadData()
-        }
-        if month == 2 {
-            self.backButton.isEnabled = false
-            self.nextButton.isEnabled = true
-        }
+        self.backButton.isEnabled = true
+        self.nextButton.isEnabled = true
+        date = calendar.date(byAdding: .month, value: -1, to: date) ?? date
+        date2 = monthFormatter.string(from: date)
+        yearMonthLabel?.text = date2
+        getDay()
+        getTime()
+        self.calendarTable.reloadData()
+        
     }
     
     //next button
     @IBAction func nextButton(_ sender: Any) {
-        let month = calendar.component(.month, from: date)
-        if month == 12 {
-            self.nextButton.isEnabled = false
-            self.backButton.isEnabled = true
-        }
-        else {
-            self.nextButton.isEnabled = true
-            self.backButton.isEnabled = true
-            date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
-            date2 = monthFormatter.string(from: date)
-            yearMonthLabel?.text = date2
-            getDay()
-            getTime()
-            self.calendarTable.reloadData()
-        }
-        if month == 11 {
-            self.nextButton.isEnabled = false
-            self.backButton.isEnabled = true
-        }
+        self.nextButton.isEnabled = true
+        self.backButton.isEnabled = true
+        date = calendar.date(byAdding: .month, value: 1, to: date) ?? date
+        date2 = monthFormatter.string(from: date)
+        yearMonthLabel?.text = date2
+        getDay()
+        getTime()
+        self.calendarTable.reloadData()
+      
     }
     
     //parse data
     func parse(){
         time = Mapper<CheckTime>().mapArray(JSONfile: "data.json")!
     }
-    func parse2(){
-        dayCl = Mapper<Holiday>().mapArray(JSONfile: "dayCeleb.json")!
-    }
-    //ObjectMapper
     
+    
+    func parse2(){
+        let url = "https://calendarific.com/api/v2/holidays?&api_key=0d01bea2cb97f447e4647a562b3e72dcf9814914&country=vn&year=2020"
+        Alamofire.request(url).responseObject{ (response: DataResponse<HolidayResponse>) in
+            let dataResponse = response.result.value
+            print(dataResponse?.meta)
+        }
+    }
     
     func getTime(){
         let range = calendar.range(of: .day, in: .month, for: date)!
@@ -219,17 +200,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let range = calendar.range(of: .day, in: .month, for: date)!
         let monthCurrent = calendar.component(.month, from: date)
         let yearCurrent = calendar.component(.year, from: date)
-        let obj = DayCelebCurrent(day: "")
+        let obj = DateInfoCheck(iso: "")
         dayClCheck = Array(repeating: obj, count: range.count)
-        for i in 0..<dayCl.count {
-            let dateIndex = DateUtils.stringToDate2(date: dayCl[i].day!)
-            let dayIndex = calendar.component(.day, from: dateIndex)
-            let monthIndex = calendar.component(.month, from: dateIndex)
-            let yearIndex = calendar.component(.year, from: dateIndex)
-            if yearIndex == yearCurrent && monthIndex == monthCurrent {
-                dayClCheck[dayIndex - 1].day = dayCl[i].day!
-            }
-        }
+//        for i in 0..<dayCl.count{
+//            let dateIndex = DateUtils.stringToDate2(date: (dayCl[i].response)!)
+//            let dayIndex = calendar.component(.day, from: dateIndex)
+//            let monthIndex = calendar.component(.month, from: dateIndex)
+//            let yearIndex = calendar.component(.year, from: dateIndex)
+//            if yearIndex == yearCurrent && monthIndex == monthCurrent {
+//                dayClCheck[dayIndex - 1].iso = (dayCl[i].response)!
+//            }
+//        }
     }
 }
 
