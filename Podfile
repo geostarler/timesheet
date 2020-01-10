@@ -7,6 +7,6 @@ target 'Time Sheet' do
 
   # Pods for Time Sheet
   pod 'ObjectMapper'
-  pod 'Alamofire'
-  pod 'AlamofireObjectMapper'
+  pod 'Alamofire', '~> 4.9.1'
+  pod 'AlamofireObjectMapper', '~> 5.2.1'
 end

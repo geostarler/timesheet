@@ -9,7 +9,7 @@
 import UIKit
 import ObjectMapper
 import Alamofire
-import AlamofireObjectMapper
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var headerView: UIView!
@@ -31,7 +31,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var dayCl = [HolidayResponse]()
     var dayClCheck = [DateInfoCheck]()
     var currentTimeCheck = [TimeCheckCurrent]()
-        
+    
+    var test = [Test]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         calendarTable.dataSource = self
@@ -166,12 +168,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     func parse2(){
-        let url = "https://calendarific.com/api/v2/holidays?&api_key=0d01bea2cb97f447e4647a562b3e72dcf9814914&country=vn&year=2020"
-        Alamofire.request(url).responseObject{ (response: DataResponse<HolidayResponse>) in
-            let dataResponse = response.result.value
-            print(dataResponse?.meta)
+        let url = API_URL
+        Alamofire.request(url).responseJSON { (response) in
+//            NSLog("data: \(self.test)")
+//            self.dayCl.append(responseData!)
+            let value = response.result.value
+            NSLog("response: \(Mapper<HolidayResponse>().map(JSON: <#T##[String : Any]#>))")
         }
     }
+    
+    
     
     func getTime(){
         let range = calendar.range(of: .day, in: .month, for: date)!
@@ -203,7 +209,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let obj = DateInfoCheck(iso: "")
         dayClCheck = Array(repeating: obj, count: range.count)
 //        for i in 0..<dayCl.count{
-//            let dateIndex = DateUtils.stringToDate2(date: (dayCl[i].response)!)
+//            var response = dayCl.
+//
+//            let dateIndex = DateUtils.stringToDate2(date: (response))
 //            let dayIndex = calendar.component(.day, from: dateIndex)
 //            let monthIndex = calendar.component(.month, from: dateIndex)
 //            let yearIndex = calendar.component(.year, from: dateIndex)
