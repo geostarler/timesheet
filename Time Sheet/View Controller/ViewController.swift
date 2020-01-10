@@ -28,11 +28,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var totalCheck = 0.00
     var totalHour = 0.00
     var time = [CheckTime]()
-    var dayCl = [HolidayResponse]()
+    var dayCl = [HolidayDetail]()
+    
     var dayClCheck = [DateInfoCheck]()
     var currentTimeCheck = [TimeCheckCurrent]()
-    
-    var test = [Test]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +47,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         parse2()
         getDay()
         getTime()
-        calendarTable.reloadData()
         }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -91,10 +89,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let fmtDisplayDate = DateFormatter()
             fmtDisplayDate.dateFormat = "(MM/dd)"
             let holidayDate = DateUtils.stringToDate2(date: dayClCheck[indexPath.row].iso)
-            print(dayClCheck[indexPath.row].iso)
+            
             if dayClCheck[indexPath.row].iso != "" {
                 let holiday = fmtDisplayDate.string(from: holidayDate)
-                print(holiday)
                 if cell.dateLabel.text == "\(holiday)"{
                     cell.dayLabel.textColor = UIColor.red
                     cell.dateLabel.textColor = UIColor.red
@@ -169,11 +166,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func parse2(){
         let url = API_URL
-        Alamofire.request(url).responseJSON { (response) in
-//            NSLog("data: \(self.test)")
-//            self.dayCl.append(responseData!)
+        Alamofire.request(url).validate().responseJSON { (response) in
             let value = response.result.value
-            NSLog("response: \(Mapper<HolidayResponse>().map(JSON: <#T##[String : Any]#>))")
+            let responseData = Mapper<HolidayResponse>().map(JSONObject: value)!
+            let holidayDetail = responseData.response?.holidays
+            self.dayCl = holidayDetail!
+            DispatchQueue.main.async {
+                self.getDay()
+                self.calendarTable.reloadData()
+            }
         }
     }
     
@@ -208,17 +209,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let yearCurrent = calendar.component(.year, from: date)
         let obj = DateInfoCheck(iso: "")
         dayClCheck = Array(repeating: obj, count: range.count)
-//        for i in 0..<dayCl.count{
-//            var response = dayCl.
-//
-//            let dateIndex = DateUtils.stringToDate2(date: (response))
-//            let dayIndex = calendar.component(.day, from: dateIndex)
-//            let monthIndex = calendar.component(.month, from: dateIndex)
-//            let yearIndex = calendar.component(.year, from: dateIndex)
-//            if yearIndex == yearCurrent && monthIndex == monthCurrent {
-//                dayClCheck[dayIndex - 1].iso = (dayCl[i].response)!
-//            }
-//        }
+        for i in 0..<dayCl.count{
+            let dateIndex = DateUtils.stringToDate2(date: dayCl[i].date!.iso!)
+            let dayIndex = calendar.component(.day, from: dateIndex)
+            let monthIndex = calendar.component(.month, from: dateIndex)
+            let yearIndex = calendar.component(.year, from: dateIndex)
+            if yearIndex == yearCurrent && monthIndex == monthCurrent {
+                dayClCheck[dayIndex - 1].iso = dayCl[i].date!.iso!
+            }
+        }
     }
 }
 

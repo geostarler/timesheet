@@ -27,23 +27,20 @@ struct CheckTime: Mappable {
     
 }
 
-
 struct HolidayResponse: Mappable {
     
-    
-//    var meta: String?
-    var response:[Holidays]?
-    
-    init(map: Map) {
+    var response:Holidays?
+        init(map: Map) {
         
     }
     
     mutating func mapping(map: Map) {
-//        meta <- map["meta.code"]
+
         response <- map["response"]
-//        response = try map.value("response")
+       
     }
 }
+
 struct Holidays: Mappable {
     var holidays:[HolidayDetail]?
     
@@ -54,11 +51,9 @@ struct Holidays: Mappable {
     mutating func mapping(map: Map) {
         holidays <- map["holidays"]
     }
-
-    
 }
+
 struct HolidayDetail: Mappable {
-    var name:String?
     var date:DateInfo?
     
     init?(map: Map) {
@@ -66,13 +61,12 @@ struct HolidayDetail: Mappable {
     }
 
     mutating func mapping(map: Map) {
-        name <- map["name"]
         date <- map["date"]
     }
 
 }
 struct DateInfo: Mappable {
-    var iso:Date?
+    var iso:String?
     
     init?(map: Map) {
 
@@ -83,11 +77,3 @@ struct DateInfo: Mappable {
     }
 }
 
-struct Test: Mappable {
-    var date:String?
-    
-    init?(map: Map) {}
-    mutating func mapping(map: Map) {
-        date <- map["response.holidays.date.iso"]
-    }
-}
